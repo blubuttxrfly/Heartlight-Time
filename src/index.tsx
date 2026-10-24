@@ -41,8 +41,8 @@ import {
 import { getColignyReading } from "./lib/colignyCalendar";
 
 /**
- * AUT Time & Tools — Live Clock
- * Sunrise→Next Sunrise maps to 00:00→12:00 AUT. 6:00 AUT marks Solar Sunset (midday).
+ * Heartlight Time & Tools — Live Clock
+ * Sunrise→Next Sunrise maps to 00:00→12:00 HT. 6:00 HT marks Solar Sunset (midday).
  * Includes:
  *  • Polar/Solstice continuity via Equilux fallback using Apparent Solar Time (AST)
  *  • Higher-accuracy NOAA-style ephemeris (declination & equation of time)
@@ -206,7 +206,7 @@ const UI_THEME_STORAGE_KEY = "aut-ui-theme";
 const ATLAS_THEMES_STORAGE_KEY = "aut-atlas-saved-themes";
 const ATLAS_ACTIVE_THEME_STORAGE_KEY = "aut-atlas-active-theme";
 const PANEL_OPTIONS: Array<{ id: PanelId; label: string }> = [
-  { id: "clock", label: "AUT Ray Dial" },
+  { id: "clock", label: "Heartlight Ray Dial" },
   { id: "cosmic", label: "Cosmic Calendar" },
   { id: "sol", label: "Sol Panel" },
   { id: "luna", label: "Luna Panel" },
@@ -1887,7 +1887,7 @@ const fetchTemisOzone = async (controller: AbortController) => {
   const fetchNoaaObservation = async (controller: AbortController) => {
     const headers = {
       Accept: "application/geo+json, application/json",
-      "User-Agent": "AUTClock/1.0 (atlasisland.co)",
+      "User-Agent": "HeartlightTime/1.0 (heartlightia.com)",
     };
     const point = await fetchJsonWithProxy(
       `/points/${coords.lat.toFixed(4)},${coords.lon.toFixed(4)}`,
@@ -2179,27 +2179,27 @@ function useAliceAndPWA() {
 
     // Manifest via Blob
     const manifest = {
-      name: "AUT Time & Tools",
-      short_name: "AUT",
+      name: "Heartlight Time & Tools",
+      short_name: "HUT",
       start_url: ".",
       display: "standalone",
       background_color: "#0a0a0a",
       theme_color: "#16a34a",
       icons: [
         {
-          src: "/icons/aut-icon-192.png",
+          src: "/icons/ht-icon-192.png",
           sizes: "192x192",
           type: "image/png",
           purpose: "any",
         },
         {
-          src: "/icons/aut-icon-512.png",
+          src: "/icons/ht-icon-512.png",
           sizes: "512x512",
           type: "image/png",
           purpose: "any",
         },
         {
-          src: "/icons/aut-icon-maskable-512.png",
+          src: "/icons/ht-icon-maskable-512.png",
           sizes: "512x512",
           type: "image/png",
           purpose: "maskable",
@@ -3073,7 +3073,7 @@ function SecretLarbSanctum({
         <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.4em] text-zinc-400">Secret Portal</p>
-            <h2 className="text-3xl font-semibold text-white">Welcome Home, Atlastizen!</h2>
+            <h2 className="text-3xl font-semibold text-white">Welcome Home, Heartlightian!</h2>
             <p className="text-sm text-zinc-300">
               Sculpt a Living Aura Ray Being — drag the auric cluster, nudge the orbs, and call for a wisdom bubble when the Ray feels ready ({autClock}).
             </p>
@@ -3532,7 +3532,7 @@ function SecretLarbSanctum({
               <div className="mt-3 space-y-1 text-sm text-zinc-300">
                 <div>
                   {rayWindowTimes
-                    ? `${rayWindowTimes.start.aut} → ${rayWindowTimes.end.aut} AUT`
+                    ? `${rayWindowTimes.start.aut} → ${rayWindowTimes.end.aut} HT`
                     : "Timing data pending"}
                 </div>
                 <div className="text-xs text-zinc-400">
@@ -5693,7 +5693,7 @@ export default function AUTClock() {
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center">
               <h1 className="text-base sm:text-lg md:text-2xl font-semibold tracking-tight leading-tight whitespace-nowrap">
-                AUT Time &amp; Tools
+                Heartlight Time &amp; Tools
               </h1>
             </div>
             
@@ -6836,7 +6836,7 @@ export default function AUTClock() {
                     Active Cycle: <span className="underline decoration-dotted">{activeRay.name}</span>
                   </div>
                   <div className="text-[10px] uppercase tracking-wide text-zinc-400">
-                    Sol AUT <span className="text-sm text-zinc-300 tabular-nums">{smoothClock}</span>
+                    Sol HT <span className="text-sm text-zinc-300 tabular-nums">{smoothClock}</span>
                   </div>
                 </div>
                 <div className="flex justify-end">
@@ -7108,7 +7108,7 @@ export default function AUTClock() {
                       Active Cycle: {activeRay.name}
                     </div>
                     <div className="flex items-baseline gap-3">
-                      <span className="text-[10px] uppercase tracking-wide text-zinc-400">Sol AUT</span>
+                      <span className="text-[10px] uppercase tracking-wide text-zinc-400">Sol HT</span>
                       <span className="text-sm font-semibold text-zinc-100 tabular-nums">{smoothClock}</span>
                       {rayWindowTimes ? (
                         <span className="text-[10px] text-zinc-400">
@@ -7312,28 +7312,28 @@ export default function AUTClock() {
             <div className="space-y-3">
             <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
-                <div className="text-sm text-zinc-400">Dawn (00:00 AUT)</div>
+                <div className="text-sm text-zinc-400">Dawn (00:00 HT)</div>
                 <div className="text-xl font-semibold">{formatShortTime(data.sunriseLocal)}</div>
               </div>
               <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
-                <div className="text-sm text-zinc-400">Sol Zenith (03:00 AUT)</div>
+                <div className="text-sm text-zinc-400">Sol Zenith (03:00 HT)</div>
                 <div className="text-xl font-semibold">{formatShortTime(data.solarNoonLocal)}</div>
               </div>
               <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
-                <div className="text-sm text-zinc-400">Dusk (06:00 AUT)</div>
+                <div className="text-sm text-zinc-400">Dusk (06:00 HT)</div>
                 <div className="text-xl font-semibold">{formatShortTime(data.sunsetLocal)}</div>
               </div>
               <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
-                <div className="text-sm text-zinc-400">New Dawn (12:00 AUT)</div>
+                <div className="text-sm text-zinc-400">New Dawn (12:00 HT)</div>
                 <div className="text-xl font-semibold">{formatShortTime(data.nextSunriseLocal)}</div>
               </div>
             </div>
             
             {/* Sol Ray Dial — How it Works */}
             <div className="mt-4 rounded-xl border border-zinc-700/40 bg-zinc-900/30 p-4">
-              <div className="text-xs uppercase tracking-wide text-zinc-400 mb-2">How Sol AUT &amp; the Ray Dial Flow</div>
+              <div className="text-xs uppercase tracking-wide text-zinc-400 mb-2">How Sol HT &amp; the Ray Dial Flow</div>
               <p className="text-sm text-zinc-300 leading-relaxed">
-                Sol AUT maps your local day into a 12-hour sacred cycle. Dawn marks 00:00 AUT, Sol Zenith (highest Sun) is 03:00 AUT, Dusk is 06:00 AUT, and New Dawn resets the cycle at 12:00 AUT. Between these anchors, the 12 Ray windows flow in sequence, each carrying a unique frequency for your Heartlight to embody.
+                Sol HT maps your local day into a 12-hour sacred cycle. Dawn marks 00:00 HT, Sol Zenith (highest Sun) is 03:00 HT, Dusk is 06:00 HT, and New Dawn resets the cycle at 12:00 HT. Between these anchors, the 12 Ray windows flow in sequence, each carrying a unique frequency for your Heartlight to embody.
               </p>
             </div>
             </div>
@@ -7527,13 +7527,13 @@ export default function AUTClock() {
           <div className="grid gap-4 sm:grid-cols-3">
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-100">
               <div className="uppercase tracking-wide text-amber-200/70">Dawn</div>
-              <div className="text-xs text-amber-200/60 mt-0.5">Sol AUT</div>
+              <div className="text-xs text-amber-200/60 mt-0.5">Sol HT</div>
               <div className="text-3xl font-semibold text-amber-100">{solRiseAut}</div>
               <div className="text-xs text-amber-100/80">Local {solRiseLocal}</div>
             </div>
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-100">
               <div className="uppercase tracking-wide text-amber-200/70">Sol Zenith</div>
-              <div className="text-xs text-amber-200/60 mt-0.5">Sol AUT</div>
+              <div className="text-xs text-amber-200/60 mt-0.5">Sol HT</div>
               <div className="text-3xl font-semibold text-amber-100">{solTransitAut}</div>
               <div className="text-xs text-amber-100/80">
                 Local {solTransitLocal} • Alt {solTransitAltStr}
@@ -7541,7 +7541,7 @@ export default function AUTClock() {
             </div>
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-100">
               <div className="uppercase tracking-wide text-amber-200/70">Dusk</div>
-              <div className="text-xs text-amber-200/60 mt-0.5">Sol AUT</div>
+              <div className="text-xs text-amber-200/60 mt-0.5">Sol HT</div>
               <div className="text-3xl font-semibold text-amber-100">{solSetAut}</div>
               <div className="text-xs text-amber-100/80">Local {solSetLocal}</div>
             </div>
@@ -7755,20 +7755,20 @@ export default function AUTClock() {
           <div className="grid gap-4 md:grid-cols-3">
             <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
               <div className="text-sm text-zinc-400">Luna Rise</div>
-              <div className="text-xs text-zinc-500 mt-0.5">Luna AUT</div>
+              <div className="text-xs text-zinc-500 mt-0.5">Luna HT</div>
               <div className="text-3xl font-semibold">{moonRiseAut}</div>
               <div className="text-xs text-zinc-400">Local {moonRiseLocal}</div>
             </div>
             <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
               <div className="text-sm text-zinc-400">Luna Zenith</div>
-              <div className="text-xs text-zinc-500 mt-0.5">Luna AUT</div>
+              <div className="text-xs text-zinc-500 mt-0.5">Luna HT</div>
               <div className="text-3xl font-semibold">{moonTransitAut}</div>
               <div className="text-xs text-zinc-400">Local {moonTransitLocal}</div>
               <div className="text-xs text-zinc-400">Alt {moonTransitAltStr}</div>
             </div>
             <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4">
               <div className="text-sm text-zinc-400">Luna Set</div>
-              <div className="text-xs text-zinc-500 mt-0.5">Luna AUT</div>
+              <div className="text-xs text-zinc-500 mt-0.5">Luna HT</div>
               <div className="text-3xl font-semibold">{moonSetAut}</div>
               <div className="text-xs text-zinc-400">Local {moonSetLocal}</div>
             </div>
@@ -8171,7 +8171,7 @@ export default function AUTClock() {
               <div className="space-y-0.5">
                 <div className="text-xs uppercase tracking-wide text-indigo-200/80">Preview</div>
                 <div className="text-sm text-slate-100">
-                  Date + AUT time drive the wheel and labels below.
+                  Date + HT time drive the wheel and labels below.
                 </div>
               </div>
               <button
@@ -8314,7 +8314,7 @@ export default function AUTClock() {
               </svg>
             </div>
             <div className="text-xs text-slate-300 text-center max-w-2xl">
-              12-hour AUT shifts (sunrise→sunset, sunset→next sunrise), flowing in order from Saturday dawn
+              12-hour HT shifts (sunrise→sunset, sunset→next sunrise), flowing in order from Saturday dawn
               through Friday night.
             </div>
           </div>
@@ -8340,7 +8340,7 @@ export default function AUTClock() {
                       <div className="ray-pill-dot" style={{ background: headerBg }} aria-hidden="true" />
                       <div className="flex flex-col leading-tight">
                         <span className="ray-pill-title">{day.dayLabel}</span>
-                        <span className="ray-pill-time">00:00 → 12:00 AUT (one sacred cycle)</span>
+                        <span className="ray-pill-time">00:00 → 12:00 HT (one sacred cycle)</span>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -8384,7 +8384,7 @@ export default function AUTClock() {
                                   {reading?.body ?? cycle.description}
                                 </p>
                                 <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">
-                                  Local 00:00 → 12:00 AUT
+                                  Local 00:00 → 12:00 HT
                                 </div>
                               </div>
                             </div>
@@ -8448,11 +8448,11 @@ export default function AUTClock() {
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400">
               <span className="uppercase tracking-wide">Sol Ray Dial Cycle</span>
               <span className="text-slate-200">
-                AUT {rayWindowTimes?.start.aut} → {rayWindowTimes?.end.aut} • Local {rayWindowTimes?.start.local} → {rayWindowTimes?.end.local}
+                HT {rayWindowTimes?.start.aut} → {rayWindowTimes?.end.aut} • Local {rayWindowTimes?.start.local} → {rayWindowTimes?.end.local}
               </span>
               {data.dayLenMin > 0 && (
                 <span className="text-zinc-500">
-                  1 AUT sec = {data.autHours < 6 ? (data.dayLenMin / 360).toFixed(2) : (data.nightLenMin / 360).toFixed(2)} real sec
+                  1 HT sec = {data.autHours < 6 ? (data.dayLenMin / 360).toFixed(2) : (data.nightLenMin / 360).toFixed(2)} real sec
                 </span>
               )}
             </div>
@@ -8484,7 +8484,7 @@ export default function AUTClock() {
               </span>
             </div>
             <p className="text-sm text-slate-300">
-              The AUT Sol Ray Dial follows the flow of the Ray frequencies throughout our Sun's solar cycle.
+              The HT Sol Ray Dial follows the flow of the Ray frequencies throughout our Sun's solar cycle.
             </p>
           </div>
 
@@ -8514,7 +8514,7 @@ export default function AUTClock() {
                   </p>
                 )}
                 <div className="text-xs text-slate-400">
-                  AUT {rayWindowTimes?.start.aut} → {rayWindowTimes?.end.aut} • Local {rayWindowTimes?.start.local} → {rayWindowTimes?.end.local}
+                  HT {rayWindowTimes?.start.aut} → {rayWindowTimes?.end.aut} • Local {rayWindowTimes?.start.local} → {rayWindowTimes?.end.local}
                 </div>
               </div>
             </div>
@@ -8541,7 +8541,7 @@ export default function AUTClock() {
                       <div>
                         <div className="text-sm font-semibold text-zinc-100">{win.name}</div>
                         <div className="text-[11px] uppercase tracking-[0.18em] text-zinc-400">
-                          AUT {win.window.start.aut} → {win.window.end.aut} • Local {win.window.start.local} → {win.window.end.local}
+                          HT {win.window.start.aut} → {win.window.end.aut} • Local {win.window.start.local} → {win.window.end.local}
                         </div>
                       </div>
                     </div>
@@ -8630,7 +8630,7 @@ export default function AUTClock() {
                       <div>
                         <div className="text-sm font-semibold text-slate-100">{day.dayLabel}</div>
                         <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">
-                          00:00 → 12:00 AUT
+                          00:00 → 12:00 HT
                         </div>
                       </div>
                     </div>
@@ -8675,7 +8675,7 @@ export default function AUTClock() {
                                   {reading?.body ?? cycle.description}
                                 </p>
                                 <div className="text-[11px] uppercase tracking-[0.18em] text-slate-400">
-                                  Local 00:00 → 12:00 AUT
+                                  Local 00:00 → 12:00 HT
                                 </div>
                               </div>
                             </div>
@@ -8836,7 +8836,7 @@ export default function AUTClock() {
             ) : zipStatus === "error" && zipError ? (
               <span className="text-rose-400">{zipError}</span>
             ) : (
-              <span className="text-zinc-500">Type any city or postal code anywhere in the world. Click a result to set your AUT location.</span>
+              <span className="text-zinc-500">Type any city or postal code anywhere in the world. Click a result to set your Heartlight Time location.</span>
             )}
           </div>
           <p className="text-xs text-zinc-400">
@@ -8848,23 +8848,23 @@ export default function AUTClock() {
 
         <div className="flex justify-center py-4">
           <img
-            src="/AtlasIslandLOGO.png"
-            alt="Atlas Island radiant emblem"
-            className="max-w-full w-[420px] drop-shadow-[0_12px_35px_rgba(59,130,246,0.35)]"
+            src="/HeartlightiaSymbol.png"
+            alt="Heartlightia radiant emblem"
+            className="max-w-full w-[120px] drop-shadow-[0_12px_35px_rgba(59,130,246,0.35)]"
             loading="lazy"
             onClick={handleSecretBannerClick}
           />
         </div>
 
         <footer className="text-center text-xs text-zinc-400 mt-2 whitespace-pre-wrap">
-          Atlas Island ✨{" "}
+          Heartlightia ✨{" "}
           <a
             className="text-zinc-300 underline decoration-dotted hover:text-white"
-            href="https://www.atlasisland.co"
+            href="https://www.heartlightia.com"
             target="_blank"
             rel="noreferrer"
           >
-            www.atlasisland.co
+            www.heartlightia.com
           </a>{" "}
           • V7.7.7
         </footer>

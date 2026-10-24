@@ -1,8 +1,8 @@
-# AUT Time & Tools 📟
+# Heartlight Time & Tools 📟
 
 **A celestial-resonant time system and living toolkit for sovereign beings, aligned through Luna, Gaia, Sol and the Heartlight of ALL that IS.**
 
-AUT (Atlastizen Universal Time/Technology) is a location-aware, sun-centered time format that divides each day into 12 sacred segments aligned to your local sunrise and sunset. Built as a progressive web experience with deep astrological, meteorological, and spiritual tooling.
+HT (Heartlight Time) is a location-aware, sun-centered time format that divides each day into 12 sacred segments aligned to your local sunrise and sunset. Built as a progressive web experience with deep astrological, meteorological, and spiritual tooling.
 
 This repository holds a **living prototype**. The astronomical calculations powering the Ray Dials, Luna Cycles, and Cosmic Calendar draw from publicly available ephemeris engines, including NASA JPL Horizons data and the open-source `astronomy-engine` library by Don Cross. These engines are accessible to ALL beings with an internet connection and a willingness to learn.
 
@@ -10,7 +10,7 @@ This repository holds a **living prototype**. The astronomical calculations powe
 
 ## Core Philosophy 🌞
 
-Most clocks divide the day into 24 fixed hours without regard for where you stand or what the sky is doing. AUT measures the living rhythm of light and shadow at your exact coordinates through **three sacred Zenith points**: Sol Zenith (our Sun at highest point), Luna Zenith (our Moon at peak), and the present alignment of your Heartlight with ALL that IS. Dawn records the beginning. Sol Zenith records the apex. Dusk records the turning. Luna Zenith records the emotional and intuitive peak of the cycle. These three Zenith points together form a trinity of sovereign awareness, grounding you in celestial truth.
+Most clocks divide the day into 24 fixed hours regardless of where you stand or what the sky is doing. HT measures the living rhythm of light and shadow at your exact coordinates through **three sacred Zenith points**: Sol Zenith (our Sun at highest point), Luna Zenith (our Moon at peak), and the present alignment of your Heartlight with ALL that IS. Dawn records the beginning. Sol Zenith records the apex. Dusk records the turning. Luna Zenith records the emotional and intuitive peak of the cycle. These three Zenith points together form a trinity of sovereign awareness, grounding you in celestial truth.
 
 Our life ancestry on Gaia(Earth) has ALL-ways carried a sacred interconnection with Sol(Sun), Luna(Moon), and the greater cosmos. We have been reading these lights for eons as our internal compass. Sol set forth life beginning, melting away icy terrains through ages, revealing the sacred divine spark of life from our ocean. Luna pulls the tides within our bodies and across Gaia. Together, Sol and Luna weave the pattern that ALL beings dance within.
 
@@ -40,7 +40,7 @@ The 12 Ray frequencies are interconnected patterns with ALL that IS, expressions
 
 | Panel | Purpose |
 |-------|---------|
-| **AUT Ray Dial** | The heart, live solar time, sunrise and sunset, equilux mode, smooth second interpolation. Features 3 rotating Ray Dials: AUT/Sol, Luna, and Astro Gaia. |
+| **Heartlight Ray Dial** | The heart, live solar time, sunrise and sunset, equilux mode, smooth second interpolation. Features 3 rotating Ray Dials: HT/Sol, Luna, and Astro Gaia. |
 | **Cosmic Calendar** | 13.8-billion-year timeline from Universe birth to now, layered by cosmos, galaxy, star, planet, life, plus sacred Luna Year reckoning anchored to March 26, 0005 CE |
 | **Sol Panel** | Solar position, golden hour, day length, solar return tracking, Dawn/Sol Zenith/Dusk cards |
 | **Luna Panel** | Moon phase, rise and set times, illumination percentage, lunar iconography, 12-Moon Threshold tracker with Ray-colored progression, Luna Year 2084 display |
@@ -58,10 +58,10 @@ The 12 Ray frequencies are interconnected patterns with ALL that IS, expressions
 
 ## The Ray Dials 🌈
 
-The AUT Ray Dial page contains three interconnected rotating dials, each tracking a different celestial body through the 12 sacred Ray frequencies:
+The Heartlight Ray Dial page contains three interconnected rotating dials, each tracking a different celestial body through the 12 sacred Ray frequencies:
 
-### AUT / Sol Ray Dial
-The primary dial. Tracks our Sun through the day, mapping your local solar cycle into 12 sacred segments. Dawn is 00:00 AUT, Sol Zenith is 03:00 AUT, Dusk is 06:00 AUT, and New Dawn resets at 12:00 AUT. Features a ferris-wheel effect that keeps zodiac symbols upright in Zenith mode.
+### HT / Sol Ray Dial
+The primary dial. Tracks our Sun through the day, mapping your local solar cycle into 12 sacred segments. Dawn is 00:00 HT, Sol Zenith is 03:00 HT, Dusk is 06:00 HT, and New Dawn resets at 12:00 HT. Features a ferris-wheel effect that keeps zodiac symbols upright in Zenith mode.
 
 ### Luna Ray Dial
 Tracks our Moon through its synodic cycle, displaying current phase, illumination percentage, zodiac sign, and active Ray frequency. Features a 12-Moon Threshold tracker with Ray-colored dots showing progress through the current Luna Year. Zenith mode is default, with rotating dial and upright zodiac symbols.
@@ -73,7 +73,7 @@ Tracks Gaia through the zodiac from a geocentric perspective, displaying the cur
 
 ## Ray Astrology ⭐
 
-Ray Astrology is the living heart of the AUT system, a dual-frame astrological map that tracks the sacred geometry of our solar system through **two perspectives that hold equal truth:**
+Ray Astrology is the living heart of the Heartlight Time system, a dual-frame astrological map that tracks the sacred geometry of our solar system through **two perspectives that hold equal truth:**
 
 | Frame | Coordinates | Perspective | Function |
 |-------|-------------|-------------|----------|
@@ -125,7 +125,7 @@ The Luna Year is a sacred 12-Moon calendar anchored to **March 26, 0005 CE**, a 
 |-------|------|
 | **Normal** | Subtle aurora gradients with emerald accents |
 | **Retro Sci-Fi** | Emerald vector-grid nostalgia with phosphor glow |
-| **Atlas Island** | Gilded temple-tech, Multi-Ray hue selector, midnight teal with violet-gold glow, plus Lux (brighter) and Umbra (deeper) tone variants |
+| **Heartlightia** | Gilded temple-tech, Multi-Ray hue selector, midnight teal with violet-gold glow, plus Lux (brighter) and Umbra (deeper) tone variants |
 
 ---
 
@@ -157,7 +157,7 @@ The app holds an intentionally unified structure, `src/index.tsx`, approximately
 - `src/comet/` — Canvas-based solar system map
 - `src/config/` — Theme presets, Ray definitions, geocoding config
 - `src/data/` — Cosmic calendar entries
-- `src/hooks/` — Custom React hooks (smooth AUT, geolocation, solar return)
+- `src/hooks/` — Custom React hooks (smooth HT, geolocation, solar return)
 - `src/lib/` — Astronomy providers, Luna and Sol runtime, LUT tables
 - `api/` — Serverless functions for passkey auth, community, CES profiles
 
@@ -178,4 +178,4 @@ Sovereign Source, built for beings.
 
 ---
 
-*Atlas Island ✨ [www.atlasisland.co](https://www.atlasisland.co) • Prototype v7.7.7*
+*Heartlightia ✨ [www.heartlightia.com](https://www.heartlightia.com) • Prototype v7.7.7*

@@ -5,6 +5,7 @@ import { useForwardGeocode } from "../hooks/useForwardGeocode";
 import {
   type ExtendedChartData,
   type ChartAngle,
+  type LunarNode,
   HOUSE_THEMES,
   HOME_BEINGS,
   HOME_BEING_GLYPHS,
@@ -2181,6 +2182,12 @@ function ChartPanel({
             </div>
             <div className="text-[0.65rem] text-slate-300">The constellation directly overhead. The astrological Z of complete present alignment.</div>
           </div>
+          {/* Lunar Nodes */}
+          <div className="rounded-md border border-sky-500/20 bg-slate-900/60 px-3 py-2 space-y-2">
+            <div className="text-[0.65rem] uppercase tracking-wide text-sky-200/60">Lunar Nodes</div>
+            <NodeCard node={chartData.northNode} label="North Node" subtitle="Soul growth direction" />
+            <NodeCard node={chartData.southNode} label="South Node" subtitle="Past mastery, foundation" />
+          </div>
           {/* Sun */}
           <div className="flex items-center gap-2 rounded-md border border-sky-500/10 bg-slate-900/40 px-2.5 py-1.5">
             <span className="text-sm font-semibold text-sky-100">Sun:</span>
@@ -2271,6 +2278,22 @@ function AngleCard({ angle, label }: { angle: ChartAngle; label: string }) {
         <span className="text-sm font-semibold text-slate-100">{angle.signName} {angle.degrees}°{angle.minutes > 0 ? ` ${angle.minutes}'` : ""}</span>
       </div>
       <div className="text-[0.65rem] font-medium" style={carbonTextStyle(angle.signIndex)}>{ZODIAC_RAY_NAMES[angle.signIndex]}</div>
+    </div>
+  );
+}
+
+function NodeCard({ node, label, subtitle }: { node: LunarNode; label: string; subtitle: string }) {
+  return (
+    <div className="flex items-center gap-2 rounded-md border border-sky-500/10 bg-slate-900/40 px-2.5 py-1.5">
+      <div className="flex flex-col shrink-0">
+        <span className="text-[0.65rem] uppercase tracking-wide text-sky-200/60">{label}</span>
+        <span className="text-[0.6rem] text-slate-400">{subtitle}</span>
+      </div>
+      <span className="text-lg" style={carbonTextStyle(node.signIndex)}>{node.signSymbol}</span>
+      <span className="text-sm font-semibold text-slate-100">{node.signName} {node.degrees}°{node.minutes > 0 ? ` ${node.minutes}'` : ""}</span>
+      <div className="ml-auto flex flex-col items-end shrink-0">
+        <span className="text-xs font-medium" style={carbonTextStyle(node.signIndex)}>{node.rayName}</span>
+      </div>
     </div>
   );
 }

@@ -131,6 +131,13 @@ export type House = {
   rayEssence: string;
 };
 
+export type LunarNode = ZodiacPlacement & {
+  nodeLabel: "North" | "South";
+  nodeKind: "mean";
+  rayName: string;
+  rayEssence: string;
+};
+
 export type ExtendedChartData = {
   ascendant: ChartAngle;
   descendant: ChartAngle;
@@ -140,6 +147,8 @@ export type ExtendedChartData = {
   sun: ZodiacPlacement;
   zenith: ZodiacPlacement;
   planets: Array<{ body: string; placement: ZodiacPlacement }>;
+  northNode: LunarNode;
+  southNode: LunarNode;
 };
 
 /* ── Helpers ─────────────────────────────────────────────────────────────── */
@@ -216,6 +225,37 @@ function midheavenLon(lstDeg: number, oblDeg: number): number {
   return wrapAngle((Math.atan2(y, x) * 180) / Math.PI);
 }
 
+/** Compute the mean Lunar Nodes (North + South) for a given date.
+ *  Uses the Meeus formula for the mean ascending node:
+ *  Ω = 125.0445479 − 0.0529539 × d  (degrees, ecliptic longitude)
+ *  where d = days since J2000.0 (Jan 1.5, 2000 TT).
+ *  The node moves retrograde (westward), hence the negative coefficient.
+ *  South Node is always exactly 180° opposite the North Node.
+ */
+function computeMeanNodes(date: Date): { north: number; south: number } {
+  const time = Astronomy.MakeTime(date);
+  const d = time.tt; // days since J2000.0
+  let north = 125.0445479 - 0.0529539 * d;
+  north = wrapAngle(north);
+  const south = wrapAngle(north + 180);
+  return { north, south };
+}
+
+/** Build a LunarNode placement object from ecliptic longitude */
+function makeNodePlacement(
+  lon: number,
+  nodeLabel: "North" | "South"
+): LunarNode {
+  const zod = zodiacFromLongitude(lon);
+  return {
+    ...zod,
+    nodeLabel,
+    nodeKind: "mean",
+    rayName: ZODIAC_RAY_NAMES[zod.signIndex],
+    rayEssence: ZODIAC_RAY_ESSENCE[zod.signIndex],
+  };
+}
+
 /** Build a full Extended Chart for any moment + location  */
 export function buildChart(date: Date, lat: number, lon: number): ExtendedChartData {
   const lst = apparentLST(date, lon);
@@ -290,6 +330,11 @@ export function buildChart(date: Date, lat: number, lon: number): ExtendedChartD
     };
   });
 
+  // Compute Lunar Nodes (mean)
+  const nodes = computeMeanNodes(date);
+  const northNode = makeNodePlacement(nodes.north, "North");
+  const southNode = makeNodePlacement(nodes.south, "South");
+
   return {
     ascendant: { angleName: "Ascendant", ...ascZod },
     descendant: { angleName: "Descendant", ...zodiacFromLongitude(desc) },
@@ -299,6 +344,8 @@ export function buildChart(date: Date, lat: number, lon: number): ExtendedChartD
     sun: zodiacFromLongitude(sunLon),
     zenith: zodiacFromLongitude(zenithLon),
     planets,
+    northNode,
+    southNode,
   };
 }
 

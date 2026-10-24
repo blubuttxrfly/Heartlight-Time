@@ -72,8 +72,8 @@ export function CosmicCalendarPanel({
               Cosmic Calendar
             </div>
             <p className="text-[12px] leading-relaxed text-slate-300 sm:text-xs">
-              Creation of ALL set as AUT Year 0. Present moment sits at AUT Year {formatWhole(presentAutYear)} — all
-              milestones below use whole-number years and AUT-style epoch labels.
+              Creation of ALL set as HT Year 0. Present moment sits at HT Year {formatWhole(presentAutYear)} — all
+               milestones below use whole-number years and HT-style epoch labels.
             </p>
           </div>
           <div className="rounded-xl border border-indigo-400/40 bg-indigo-500/10 px-4 py-3 text-indigo-50 shadow-inner shadow-black/30 sm:px-5">
@@ -81,7 +81,7 @@ export function CosmicCalendarPanel({
               Origin Anchor
             </div>
             <div className="text-sm font-semibold sm:text-base">{originLabel}</div>
-            <div className="text-[10px] text-indigo-200 sm:text-[11px]">AUT Year 0 → {formatWhole(presentAutYear)}</div>
+            <div className="text-[10px] text-indigo-200 sm:text-[11px]">HT Year 0 → {formatWhole(presentAutYear)}</div>
           </div>
         </div>
 
@@ -89,22 +89,22 @@ export function CosmicCalendarPanel({
           <div className="grid gap-3 md:grid-cols-2">
             <div className="rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 shadow-inner shadow-black/30 sm:px-5">
               <div className="text-[10px] uppercase tracking-[0.16em] text-emerald-200/80 sm:text-[11px] sm:tracking-[0.2em]">
-                Current AUT
+                Current HT
               </div>
               <div className="flex flex-wrap items-baseline gap-2 sm:gap-3">
                 <div className="text-xl font-semibold text-emerald-50 tabular-nums sm:text-2xl">{autClock ?? "—"}</div>
                 <div className="text-[10px] text-emerald-200 uppercase tracking-[0.16em] sm:text-[11px] sm:tracking-[0.18em]">
-                  {autDateLabel ?? "AUT date (sunrise anchored)"}
+                  {autDateLabel ?? "HT date (sunrise anchored)"}
                 </div>
               </div>
               {autDateLabel ? (
                 <div className="mt-1 text-[12px] text-emerald-100 sm:text-[13px]">
-                  AUT Date: <span className="font-semibold">{autDateLabel}</span>
+                  HT Date: <span className="font-semibold">{autDateLabel}</span>
                 </div>
               ) : null}
               {autLunarCyclesLabel ? (
                 <div className="text-[12px] text-emerald-100 sm:text-[13px]">
-                  AUT-M (Moon cycles since formation):{" "}
+                  HT-M (Moon cycles since formation):{" "}
                   <span className="font-semibold">{autLunarCyclesLabel}</span>
                 </div>
               ) : null}
@@ -128,7 +128,7 @@ export function CosmicCalendarPanel({
         <article className="themed-subcard p-4 space-y-2">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.24em] text-amber-200/80">AUT-E-S Cycle</div>
+              <div className="text-xs uppercase tracking-[0.24em] text-amber-200/80">HT-E-S Cycle</div>
               <div className="text-3xl font-semibold text-white tabular-nums">{autEarthSolarCyclesLabel}</div>
             </div>
             <span className="rounded-full border border-amber-300/50 bg-amber-500/15 px-3 py-1 text-[11px] uppercase tracking-wide text-amber-100">
@@ -136,7 +136,7 @@ export function CosmicCalendarPanel({
             </span>
           </div>
           <p className="text-sm leading-relaxed text-slate-200">
-            Earth revolutions around the Sun since Earth solidified (~4.54B years ago). One AUT-E-S cycle equals one
+            Earth revolutions around the Sun since Earth solidified (~4.54B years ago). One HT-E-S cycle equals one
             Earth year orbit — a whole-number tally of how many trips Earth has completed around Sol.
           </p>
         </article>
@@ -146,7 +146,7 @@ export function CosmicCalendarPanel({
         <article className="themed-subcard p-4 space-y-2">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.24em] text-indigo-200/80">AUT-M Cycle</div>
+              <div className="text-xs uppercase tracking-[0.24em] text-indigo-200/80">HT-M Cycle</div>
               <div className="text-3xl font-semibold text-white tabular-nums">{autLunarCyclesLabel}</div>
             </div>
             <span className="rounded-full border border-indigo-300/50 bg-indigo-500/15 px-3 py-1 text-[11px] uppercase tracking-wide text-indigo-100">
@@ -155,7 +155,7 @@ export function CosmicCalendarPanel({
           </div>
           <p className="text-sm leading-relaxed text-slate-200">
             Cumulative synodic lunar cycles (New Moon → New Moon) since Moon formation. Anchor ≈4.51B years ago; mean
-            synodic month 29.530588853 days. Creation of ALL sets AUT Year 0; AUT-M tracks the Moon’s journey across
+            synodic month 29.530588853 days. Creation of ALL sets HT Year 0; HT-M tracks the Moon's journey across
             that cosmic span.
           </p>
         </article>
@@ -211,7 +211,7 @@ export function CosmicCalendarPanel({
             <div className="grid grid-cols-2 gap-2">
               <div className="rounded-lg border border-white/10 bg-black/10 px-3 py-2">
                 <div className="text-[10px] uppercase tracking-[0.14em] text-slate-400 sm:text-[11px] sm:tracking-wide">
-                  AUT Year
+                  HT Year
                 </div>
                 <div className="text-sm font-semibold text-white sm:text-base">{formatWhole(entry.sinceOrigin)}</div>
                 <div className="text-[10px] text-slate-500 sm:text-[11px]">since Creation of ALL</div>
