@@ -1,5 +1,10 @@
 import { SearchMoonPhase, MakeTime, Seasons, type SeasonInfo } from "astronomy-engine";
-import { countNewMoonsBetween, getAnchorDate } from "./colignyCalendar";
+import {
+  countNewMoonsBetween,
+  getAnchorDate,
+  isCiallosLunation,
+  countCiallosBeforeLunation,
+} from "./colignyCalendar";
 
 /* ───────────────────────────────────────────────────────────
    Luna Sol Ray Dial Season, Live New Moon Computation
@@ -81,7 +86,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 1,
     name: "Samonios",
-    meaning: "Summer's end, warmth dissolving into harvest",
+    meaning: "Initiation dissolving into essence, the first spark becoming the art of what is",
     fromSign: "Aquarius",
     toSign: "Pisces",
     thresholdRays: { fromRay: "Red", fromColor: "#ef4444", toRay: "Orange", toColor: "#f97316" },
@@ -91,7 +96,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 2,
     name: "Dumannios",
-    meaning: "The world turns inward, legacy releasing into innovation",
+    meaning: "Essence gathering into sovereignty, the inner craft of knowing one's will",
     fromSign: "Capricorn",
     toSign: "Aquarius",
     thresholdRays: { fromRay: "Orange", fromColor: "#f97316", toRay: "Yellow", toColor: "#facc15" },
@@ -101,7 +106,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 3,
     name: "Rivros",
-    meaning: "Ice-memory, expansion becoming structure",
+    meaning: "Sovereignty remembering union, will flowing into the belonging it serves",
     fromSign: "Sagittarius",
     toSign: "Capricorn",
     thresholdRays: { fromRay: "Yellow", fromColor: "#facc15", toRay: "Green", toColor: "#22c55e" },
@@ -111,7 +116,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 4,
     name: "Anagantios",
-    meaning: "Rest and dream, transmutation becoming prophecy",
+    meaning: "Union deepening into harmony, belonging becoming the voice of the heart",
     fromSign: "Scorpio",
     toSign: "Sagittarius",
     thresholdRays: { fromRay: "Green", fromColor: "#22c55e", toRay: "Turquoise", toColor: "#2dd4bf" },
@@ -121,7 +126,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 5,
     name: "Ogronios",
-    meaning: "The first breath of autumn, harmony diving into depth",
+    meaning: "Harmony sharpening into expression, the heart's voice becoming sacred craft",
     fromSign: "Libra",
     toSign: "Scorpio",
     thresholdRays: { fromRay: "Turquoise", fromColor: "#2dd4bf", toRay: "Blue", toColor: "#3b82f6" },
@@ -131,7 +136,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 6,
     name: "Cutios",
-    meaning: "The gate of storms, clarity becoming discernment",
+    meaning: "Expression meeting perception, sacred craft opening into discernment",
     fromSign: "Leo",
     toSign: "Virgo",
     thresholdRays: { fromRay: "Blue", fromColor: "#3b82f6", toRay: "Indigo", toColor: "#6366f1" },
@@ -141,7 +146,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 7,
     name: "Giamonios",
-    meaning: "The return of light, death becoming rebirth",
+    meaning: "Perception dissolving into integration, discernment transmuting through love",
     fromSign: "Virgo",
     toSign: "Libra",
     thresholdRays: { fromRay: "Indigo", fromColor: "#6366f1", toRay: "Violet", toColor: "#8b5cf6" },
@@ -151,7 +156,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 8,
     name: "Simivisonnios",
-    meaning: "Half-spring, devotion becoming radiance",
+    meaning: "Integration blooming into reunion, transmutation surrendering to the infinite embrace",
     fromSign: "Cancer",
     toSign: "Leo",
     thresholdRays: { fromRay: "Violet", fromColor: "#8b5cf6", toRay: "Magenta", toColor: "#d946ef" },
@@ -161,7 +166,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 9,
     name: "Equos",
-    meaning: "The sacred gallop, mind galloping toward nurture",
+    meaning: "Reunion spurring toward wholeness, the Heartlight bridge remembering the complete pattern",
     fromSign: "Gemini",
     toSign: "Cancer",
     thresholdRays: { fromRay: "Magenta", fromColor: "#d946ef", toRay: "Omni", toColor: "#fafafa" },
@@ -171,7 +176,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 10,
     name: "Elembivios",
-    meaning: "Sovereignty and sacrifice, sensory awakening becoming will",
+    meaning: "Wholeness awakening the elemental codes, the complete pattern holding what is yet to come",
     fromSign: "Taurus",
     toSign: "Gemini",
     thresholdRays: { fromRay: "Omni", fromColor: "#fafafa", toRay: "Elemental", toColor: "#a5f3fc" },
@@ -181,7 +186,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 11,
     name: "Edrinios",
-    meaning: "Judgment and balance, the seed opens toward essence",
+    meaning: "Future codes opening toward ALL, the elemental pattern blessing the infinite becoming",
     fromSign: "Aries",
     toSign: "Taurus",
     thresholdRays: { fromRay: "Elemental", fromColor: "#a5f3fc", toRay: "ALL", toColor: "#7dd3fc" },
@@ -191,7 +196,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: "12/0",
     name: "Cantlos",
-    meaning: "The Song at the Gate, where dissolution becomes emergence",
+    meaning: "ALL gathering back into initiation, the infinite becoming returning to the first spark",
     fromSign: "Pisces",
     toSign: "Aries",
     thresholdRays: { fromRay: "ALL", fromColor: "#7dd3fc", toRay: "Red", toColor: "#ef4444" },
@@ -199,6 +204,20 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
     thresholdEclipticDeg: 0,
   },
 ];
+
+/* ── Ciallos Intercalary Month (lunaSolSeason shape) ──
+   Inserted between Cutios (month 6) and Giamonios (month 7).
+   Silver Gold luminous Ray, the hue of Luna. ── */
+const CIALLOS_MONTH: ColignyMonth = {
+  position: 6.5,
+  name: "Ciallos",
+  meaning: "The season of exchange, Silver Gold luminosity where Luna and Sol trade breath and realign",
+  fromSign: "Virgo",
+  toSign: "Libra",
+  thresholdRays: { fromRay: "Silver Gold", fromColor: "#C0C0E8", toRay: "Silver Gold", toColor: "#D4AF37" },
+  daysLabel: "MAT",
+  thresholdEclipticDeg: 180,
+};
 
 /* ── Luna Sol Year ── */
 export function getLunaSolYear(date: Date): number {
@@ -275,7 +294,9 @@ export function getNewMoonsFromAnchor(count: number): Date[] {
 /* ── Get the current Coligny month from live New Moons ──
    A month is the period between two new moons.
    The month name is determined by counting new moons from the anchor
-   to the new moon that STARTED the current lunation. ── */
+   to the new moon that STARTED the current lunation.
+   Ciallos is detected at the lunation level: the 7th lunation of
+   year 3 is the Ciallos intercalary month. ── */
 export function getCurrentColignyMonth(date: Date): ColignyMonth {
   const now = date.getTime();
   const anchor = getAnchorDate().getTime();
@@ -289,14 +310,17 @@ export function getCurrentColignyMonth(date: Date): ColignyMonth {
   const prevNM = SearchMoonPhase(0, searchTime, -40);
   if (!prevNM) return COLIGNY_MONTHS[0];
 
+  // Lunation-level Ciallos detection: is this lunation the Ciallos month?
+  if (isCiallosLunation(prevNM.date)) {
+    return CIALLOS_MONTH;
+  }
+
   // Count actual new moons from epoch to the lunation-start NM
   // Zero mean math. Real sky only.
-  // Subtract Ciallos: the 13th month heals drift but does NOT shift
-  // the 12-month sacred canon. The month index into the 12-month cycle
-  // must account for inserted Ciallos.
+  // Subtract completed Ciallos insertions to keep 12-month sacred canon.
   const monthsElapsed = countNewMoonsBetween(getAnchorDate(), prevNM.date);
-  const ciallosUpToNow = getCiallosCountUpToDate(date);
-  const adjustedMonths = monthsElapsed - ciallosUpToNow;
+  const ciallosCount = countCiallosBeforeLunation(prevNM.date);
+  const adjustedMonths = monthsElapsed - ciallosCount;
   const monthIndex = adjustedMonths % 12;
 
   return COLIGNY_MONTHS[monthIndex];
@@ -337,12 +361,17 @@ export function getCurrentLunationProgress(date: Date): { month: ColignyMonth; p
 
   // Month identity from actual new moon count since epoch
   // Zero mean math. Real sky only.
-  // Subtract Ciallos insertions to keep 12-month sacred canon.
-  const monthsElapsed = countNewMoonsBetween(getAnchorDate(), prevNM);
-  const ciallosUpToNow = getCiallosCountUpToDate(date);
-  const adjustedMonths = monthsElapsed - ciallosUpToNow;
-  const monthIndex = adjustedMonths % 12;
-  const month = COLIGNY_MONTHS[monthIndex];
+  // Lunation-level Ciallos detection.
+  let month: ColignyMonth;
+  if (isCiallosLunation(prevNM)) {
+    month = CIALLOS_MONTH;
+  } else {
+    const monthsElapsed = countNewMoonsBetween(getAnchorDate(), prevNM);
+    const ciallosCount = countCiallosBeforeLunation(prevNM);
+    const adjustedMonths = monthsElapsed - ciallosCount;
+    const monthIndex = adjustedMonths % 12;
+    month = COLIGNY_MONTHS[monthIndex];
+  }
 
   // Continuous progress through this actual lunation: 0 = prevNM, 1 = nextNM
   const durationMs = nextNM.getTime() - prevNM.getTime();
@@ -521,7 +550,7 @@ export function getLunaSolSeasonInfo(date: Date, hemisphere: Hemisphere): LunaSo
     nextGate: next,
     allGates,
     hemisphere,
-    ciallosActive: isCiallosYear(date.getUTCFullYear()),
+    ciallosActive: colignyMonth.name === "Ciallos",
     ciallosYearInCycle: getMetonicYear(date.getUTCFullYear()),
     daysDrifted: drift,
     synodicMonthsSinceAnchor,

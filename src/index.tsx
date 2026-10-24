@@ -6518,7 +6518,7 @@ export default function AUTClock() {
                     {lunaActiveRay.sign} {lunaActiveRay.symbol} {lunaActiveRay.name} Ray
                   </div>
                   <div className="text-sm text-zinc-300">
-                    Luna Day {lunaColignyReading.day} of {lunaColignyReading.ciallos.active ? lunaColignyReading.ciallos.totalDays : (lunaColignyReading.monthType === "MAT" ? 30 : 29)} of {lunaColignyReading.month.name}{lunaColignyReading.ciallos.active ? " (Ciallos)" : ""}
+                    Luna Day {lunaColignyReading.day} of {lunaColignyReading.ciallos.active ? 32 : (lunaColignyReading.monthType === "MAT" ? 30 : 29)}{lunaColignyReading.ciallos.active && lunaColignyReading.day > 32 ? " · Threshold" : ""} of {lunaColignyReading.month.name}
                   </div>
                 </div>
                 <div className="flex items-center justify-end self-end pb-1">
@@ -6763,13 +6763,13 @@ export default function AUTClock() {
               <div className="themed-subcard p-4 space-y-2">
                 <div className="text-xs uppercase tracking-wide text-zinc-400">Luna Ray Threshold</div>
                 <div className="text-base font-semibold text-zinc-50">
-                  Luna Day {lunaColignyReading.day} of {lunaColignyReading.ciallos.active ? lunaColignyReading.ciallos.totalDays : (lunaColignyReading.monthType === "MAT" ? 30 : 29)} of {lunaColignyReading.month.name}{lunaColignyReading.ciallos.active ? " (Ciallos)" : ""}
+                  Luna Day {lunaColignyReading.day} of {lunaColignyReading.ciallos.active ? 32 : (lunaColignyReading.monthType === "MAT" ? 30 : 29)}{lunaColignyReading.ciallos.active && lunaColignyReading.day > 32 ? " · Threshold" : ""} of {lunaColignyReading.month.name}
                 </div>
                 <div className="text-sm text-zinc-300">
                   {lunaColignyReading.month.meaning}
                 </div>
                 <div className="text-xs text-zinc-400">
-                  <span style={{ color: lunaColignyReading.month.fromColor }}>{lunaColignyReading.month.fromRay}</span> flowing into <span style={{ color: lunaColignyReading.month.toColor }}>{lunaColignyReading.month.toRay}</span> · {lunaColignyReading.monthType}
+                  <span style={{ color: lunaColignyReading.ciallos.active ? "#C0C0E8" : lunaColignyReading.month.fromColor }}>{lunaColignyReading.ciallos.active ? "Silver" : lunaColignyReading.month.fromRay}</span> flowing into <span style={{ color: lunaColignyReading.ciallos.active ? "#D4AF37" : lunaColignyReading.month.toColor }}>{lunaColignyReading.ciallos.active ? "Gold" : lunaColignyReading.month.toRay}</span> · {lunaColignyReading.monthType}
                 </div>
                 <div className="text-xs text-zinc-400">
                   Last New Moon: {lunaColignyReading.lunationStart.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
@@ -7621,6 +7621,15 @@ export default function AUTClock() {
             </div>
           </div>
 
+          {/* Luna Year System — how the core functionalities work */}
+          <div className="rounded-xl border border-zinc-700/40 bg-zinc-900/30 p-4 space-y-2">
+            <div className="text-xs uppercase tracking-wide text-zinc-400">Luna Year System</div>
+            <div className="text-sm text-zinc-300 space-y-1">
+              <div>12 sacred Ray threshold months flow from new moon to new moon, counted from the epoch of March 26, 5 CE. Each month carries a Ray frequency dissolving into the next, creating the ceremonial cycle of Luna's journey through ALL 12 Rays.</div>
+              <div>Every 3rd year, the 13th intercalary month Ciallos appears between Cutios and Giamonios, the Silver Gold season of exchange where Luna and Sol trade breath and realign. 32 full days plus a threshold bridge to day 33 heal the lunar-solar drift.</div>
+            </div>
+          </div>
+
           {moonArc ? (
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-400">
@@ -7798,16 +7807,25 @@ export default function AUTClock() {
 
             {/* Ciallos indicator */}
             {lunaSolSeason.ciallosActive && (
-              <div className="rounded-xl border border-cyan-400/40 bg-cyan-500/10 p-3 text-center">
-                <div className="text-xs uppercase tracking-wide text-cyan-200/80">Ciallos is breathing this year</div>
-                <div className="text-sm text-cyan-100 mt-0.5">
-                  Luna Sol Year {lunaSolSeason.ciallosYearInCycle} of 3
+              <div className="rounded-xl border p-3 text-center" style={{ borderColor: "rgba(212,175,55,0.4)", background: "rgba(192,192,232,0.1)" }}>
+                <div className="text-xs uppercase tracking-wide" style={{ color: "rgba(212,175,55,0.8)" }}>Ciallos is breathing now</div>
+                <div className="text-sm mt-0.5" style={{ color: "#C0C0E8" }}>
+                  The season of exchange, Silver Gold luminosity
                 </div>
-                <div className="text-xs text-cyan-200/60 mt-0.5">
-                  Time pauses so Moon and Sun may realign.
+                <div className="text-xs mt-0.5" style={{ color: "rgba(212,175,55,0.6)" }}>
+                  Luna and Sol trade breath and realign
                 </div>
               </div>
             )}
+
+            {/* Luna Year System — how the core functionalities work */}
+            <div className="rounded-xl border border-zinc-700/40 bg-zinc-900/30 p-4 space-y-2">
+              <div className="text-xs uppercase tracking-wide text-zinc-400">Luna Year System</div>
+              <div className="text-sm text-zinc-300 space-y-1">
+                <div>12 sacred Ray threshold months flow from new moon to new moon, counted from the epoch of March 26, 5 CE. Each month carries a Ray frequency dissolving into the next, creating the ceremonial cycle of Luna's journey through ALL 12 Rays.</div>
+                <div>Every 3rd year, the 13th intercalary month Ciallos appears between Cutios and Giamonios, the Silver Gold season of exchange where Luna and Sol trade breath and realign. 32 full days plus a threshold bridge to day 33 heal the lunar-solar drift.</div>
+              </div>
+            </div>
 
             {/* Current Coligny Month card — threshold display */}
             <div className="rounded-xl border border-zinc-700 bg-zinc-900/40 p-4 space-y-2">
@@ -7984,9 +8002,9 @@ export default function AUTClock() {
             {/* Ciallos Indicator */}
             {colignyReading.ciallos.active && (
               <div className="rounded-xl border border-cyan-400/40 bg-cyan-500/10 p-3 text-center">
-                <div className="text-xs uppercase tracking-wide text-cyan-200/80">Ciallos is breathing this year</div>
+                <div className="text-xs uppercase tracking-wide text-cyan-200/80">Ciallos is breathing now</div>
                 <div className="text-sm text-cyan-100 mt-0.5">
-                  Luna Sol Year {colignyReading.ciallos.yearInCycle} of 3
+                  The intercalary breath between Cutios and Giamonios
                 </div>
                 <div className="text-xs text-cyan-200/60 mt-0.5">
                   Time pauses so Luna and Sol may realign.

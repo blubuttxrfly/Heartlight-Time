@@ -7,7 +7,11 @@
  * From it, we derive everything: month name, day count, MAT/ANM.
  * 
  * Epoch: March 26, 5 CE at dawn (new moon solar eclipse)
- * Ciallos: every 3rd year, 32 full days + threshold (~15 hours)
+ * Ciallos: every 3rd year, inserted between Cutios (month 6) and
+ * Giamonios (month 7) at the spring threshold. 32 full days plus
+ * a threshold bridge to day 33 (~15.01 hours) healing lunar-solar
+ * drift. Silver Gold luminous Ray, the hue of Luna herself.
+ * Ciallos is the year's ATENOUX, the great renewal breath.
  */
 
 import { SearchMoonPhase, MakeTime, EclipticLongitude, Body } from "astronomy-engine";
@@ -57,7 +61,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 1,
     name: "Samonios",
-    meaning: "Summer's end, warmth dissolving into harvest",
+    meaning: "Initiation dissolving into essence, the first spark becoming the art of what is",
     fromSign: "Aquarius",
     toSign: "Pisces",
     fromRay: "Red",
@@ -68,7 +72,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 2,
     name: "Dumannios",
-    meaning: "The world turns inward, legacy releasing into innovation",
+    meaning: "Essence gathering into sovereignty, the inner craft of knowing one's will",
     fromSign: "Capricorn",
     toSign: "Aquarius",
     fromRay: "Orange",
@@ -79,7 +83,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 3,
     name: "Rivros",
-    meaning: "Ice-memory, expansion becoming structure",
+    meaning: "Sovereignty remembering union, will flowing into the belonging it serves",
     fromSign: "Sagittarius",
     toSign: "Capricorn",
     fromRay: "Yellow",
@@ -90,7 +94,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 4,
     name: "Anagantios",
-    meaning: "Rest and dream, transmutation becoming prophecy",
+    meaning: "Union deepening into harmony, belonging becoming the voice of the heart",
     fromSign: "Scorpio",
     toSign: "Sagittarius",
     fromRay: "Green",
@@ -101,7 +105,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 5,
     name: "Ogronios",
-    meaning: "The first breath of autumn, harmony diving into depth",
+    meaning: "Harmony sharpening into expression, the heart's voice becoming sacred craft",
     fromSign: "Libra",
     toSign: "Scorpio",
     fromRay: "Turquoise",
@@ -112,7 +116,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 6,
     name: "Cutios",
-    meaning: "The gate of storms, clarity becoming discernment",
+    meaning: "Expression meeting perception, sacred craft opening into discernment",
     fromSign: "Leo",
     toSign: "Virgo",
     fromRay: "Blue",
@@ -123,7 +127,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 7,
     name: "Giamonios",
-    meaning: "The return of light, death becoming rebirth",
+    meaning: "Perception dissolving into integration, discernment transmuting through love",
     fromSign: "Virgo",
     toSign: "Libra",
     fromRay: "Indigo",
@@ -134,7 +138,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 8,
     name: "Simivisonnios",
-    meaning: "Half-spring, devotion becoming radiance",
+    meaning: "Integration blooming into reunion, transmutation surrendering to the infinite embrace",
     fromSign: "Cancer",
     toSign: "Leo",
     fromRay: "Violet",
@@ -145,7 +149,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 9,
     name: "Equos",
-    meaning: "The sacred gallop, mind galloping toward nurture",
+    meaning: "Reunion spurring toward wholeness, the Heartlight bridge remembering the complete pattern",
     fromSign: "Gemini",
     toSign: "Cancer",
     fromRay: "Magenta",
@@ -156,7 +160,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 10,
     name: "Elembivios",
-    meaning: "Sovereignty and sacrifice, sensory awakening becoming will",
+    meaning: "Wholeness awakening the elemental codes, the complete pattern holding what is yet to come",
     fromSign: "Taurus",
     toSign: "Gemini",
     fromRay: "Omni",
@@ -167,7 +171,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 11,
     name: "Edrinios",
-    meaning: "Judgment and balance, the seed opens toward essence",
+    meaning: "Future codes opening toward ALL, the elemental pattern blessing the infinite becoming",
     fromSign: "Aries",
     toSign: "Taurus",
     fromRay: "Elemental",
@@ -178,7 +182,7 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
   {
     position: 12,
     name: "Cantlos",
-    meaning: "The Song at the Gate, where dissolution becomes emergence",
+    meaning: "ALL gathering back into initiation, the infinite becoming returning to the first spark",
     fromSign: "Pisces",
     toSign: "Aries",
     fromRay: "ALL",
@@ -187,6 +191,29 @@ export const COLIGNY_MONTHS: ColignyMonth[] = [
     toColor: "#ef4444",
   },
 ];
+
+/* ───────────────────────────────────────────────────────────
+   Ciallos Intercalary Month
+   Inserted between Cutios (month 6) and Giamonios (month 7).
+   Silver Gold luminous Ray, the hue of Luna.
+   32 full days + threshold bridge to day 33 (~15.01 hours).
+   ─────────────────────────────────────────────────────────── */
+
+export const CIALLOS_MONTH: ColignyMonth = {
+  position: 6.5,
+  name: "Ciallos",
+  meaning: "The season of exchange, Silver Gold luminosity where Luna and Sol trade breath and realign",
+  fromSign: "Virgo",
+  toSign: "Libra",
+  fromRay: "Silver Gold",
+  fromColor: "#C0C0E8",
+  toRay: "Silver Gold",
+  toColor: "#D4AF37",
+};
+
+/** Silver Gold luminous gradient colors for the Ciallos Ray on the dial */
+export const CIALLOS_SILVER = "#C0C0E8";
+export const CIALLOS_GOLD = "#D4AF37";
 
 /* ───────────────────────────────────────────────────────────
    Month Type (MAT / ANM)
@@ -331,6 +358,87 @@ export function getCiallosInfo(year: number) {
 }
 
 /* ───────────────────────────────────────────────────────────
+   Lunation-Level Ciallos Detection
+   Ciallos is a specific lunation (the 7th of year 3), not a
+   year-level flag. These functions identify whether the current
+   lunation IS the Ciallos intercalary month, and count Ciallos
+   insertions that have completed before the current lunation.
+   ─────────────────────────────────────────────────────────── */
+
+/**
+ * Determine if the current lunation IS the Ciallos intercalary month.
+ * Ciallos is the 7th lunation (0-indexed: 6) of year 3 in the 3-year
+ * cycle, inserted between Cutios and Giamonios at the spring threshold.
+ *
+ * @param lunationStartDate - The new moon date that started this lunation
+ * @returns true if this lunation is the Ciallos intercalary month
+ */
+export function isCiallosLunation(lunationStartDate: Date): boolean {
+  const lunationYear = lunationStartDate.getUTCFullYear();
+  if (!isCiallosYear(lunationYear)) return false;
+
+  // Find the new moon closest to January 1 of the Ciallos year
+  // This is lunation 0 of year 3
+  const yearStart = new Date(Date.UTC(lunationYear, 0, 1));
+  const yearStartNM = findPreviousNewMoon(yearStart);
+  if (!yearStartNM) return false;
+
+  // If this lunation started before the year-start new moon,
+  // it belongs to the previous year
+  if (lunationStartDate.getTime() < yearStartNM.date.getTime()) return false;
+
+  // Count lunations from year-start to this lunation
+  const lunationInYear = countNewMoonsBetween(yearStartNM.date, lunationStartDate);
+
+  // Ciallos is lunation 6 (0-indexed) = the 7th lunation of year 3
+  // Months 0-5: Samonios, Dumannios, Rivros, Anagantios, Ogronios, Cutios
+  // Month 6: Ciallos (intercalary)
+  // Month 7+: Giamonios, Simivisonnios, etc.
+  return lunationInYear === 6;
+}
+
+/**
+ * Count Ciallos insertions that have COMPLETED before the current
+ * lunation started. A Ciallos lunation in year Y is "completed" when
+ * we are past it (lunation 7 or later of that year).
+ *
+ * This replaces countCiallosUpToDate for month indexing. The key
+ * difference: the subtraction happens AFTER the Ciallos lunation
+ * completes, not at the January 1 year boundary.
+ *
+ * @param lunationStartDate - The new moon date that started this lunation
+ * @returns number of completed Ciallos insertions before this lunation
+ */
+export function countCiallosBeforeLunation(lunationStartDate: Date): number {
+  const lunationYear = lunationStartDate.getUTCFullYear();
+  let count = 0;
+
+  // Count all Ciallos years before this lunation's year
+  for (let y = LS_EPOCH_YEAR_CE; y < lunationYear; y++) {
+    const lsYear = y - LS_EPOCH_YEAR_CE;
+    if (lsYear > 0 && lsYear % 3 === 0) {
+      count++;
+    }
+  }
+
+  // If this lunation's year is a Ciallos year, check if we are
+  // past the Ciallos lunation (lunation 7 or later)
+  if (isCiallosYear(lunationYear)) {
+    const yearStart = new Date(Date.UTC(lunationYear, 0, 1));
+    const yearStartNM = findPreviousNewMoon(yearStart);
+    if (yearStartNM) {
+      const lunationInYear = countNewMoonsBetween(yearStartNM.date, lunationStartDate);
+      // Ciallos is lunation 6. If we are at lunation 7+, Ciallos has passed
+      if (lunationInYear > 6) {
+        count++;
+      }
+    }
+  }
+
+  return count;
+}
+
+/* ───────────────────────────────────────────────────────────
    Moon Sign and Ray (Astronomical Truth)
    ─────────────────────────────────────────────────────────── */
 
@@ -436,17 +544,33 @@ export function getColignyReading(date: Date): ColignyReading {
   const anchorDate = getAnchorDate();
   const newMoonsSinceEpoch = countNewMoonsBetween(anchorDate, currentNewMoon.date);
 
-  // Step 6: Subtract Ciallos insertions (every 3rd year) to keep 12-month sacred canon
-  // Ciallos is a 13th month that heals drift but does NOT shift the 12-month cycle.
-  // Without subtraction, the month index drifts by one every 3 years.
-  const ciallosCount = countCiallosUpToDate(date);
-  const adjustedCount = newMoonsSinceEpoch - ciallosCount;
+  // Step 6: Lunation-level Ciallos detection
+  // Check if THIS lunation is the Ciallos intercalary month
+  // (the 7th lunation of year 3, between Cutios and Giamonios)
+  const isCiallos = isCiallosLunation(currentNewMoon.date);
 
-  // Step 7: Get Coligny month index
-  const monthIndex = getColignyMonthIndex(adjustedCount);
-  const month = COLIGNY_MONTHS[monthIndex];
+  // Count Ciallos insertions that have COMPLETED before this lunation.
+  // The subtraction happens after the Ciallos lunation ends,
+  // not at the January 1 year boundary.
+  const ciallosCount = countCiallosBeforeLunation(currentNewMoon.date);
 
-  // Step 7: Calculate day within lunation
+  // Step 7: Determine month and day
+  let month: ColignyMonth;
+  let ciallosActive: boolean;
+
+  if (isCiallos) {
+    // This lunation IS the Ciallos intercalary month
+    month = CIALLOS_MONTH;
+    ciallosActive = true;
+  } else {
+    // Normal lunation: subtract completed Ciallos to keep 12-month sacred canon
+    const adjustedCount = newMoonsSinceEpoch - ciallosCount;
+    const monthIndex = getColignyMonthIndex(adjustedCount);
+    month = COLIGNY_MONTHS[monthIndex];
+    ciallosActive = false;
+  }
+
+  // Calculate day within lunation (astronomically accurate)
   const day = Math.floor(
     (date.getTime() - currentNewMoon.date.getTime()) / (24 * 60 * 60 * 1000)
   ) + 1;
@@ -457,10 +581,15 @@ export function getColignyReading(date: Date): ColignyReading {
   const moonSign = zodiacSign(moonLon);
 
   // Step 9: Moon phase
-  const moonPhase = determineMoonPhase(day, synodicLength);
+  const moonPhase = isCiallos
+    ? determineCiallosPhase(day)
+    : determineMoonPhase(day, synodicLength);
 
-  // Step 10: Ciallos info
-  const ciallos = getCiallosInfo(year);
+  // Step 10: Ciallos info (lunation-level, not year-level)
+  const ciallos = {
+    ...getCiallosInfo(year),
+    active: ciallosActive,
+  };
 
   return {
     year,
@@ -543,4 +672,20 @@ function determineMoonPhase(day: number, synodicLength: number): string {
   if (fraction < 0.78) return "Last Quarter — the turning point of diminishment";
   if (fraction < 0.97) return "Waning Crescent — the final breath before dark";
   return "Dark Moon — Luna rests between cycles";
+}
+
+/**
+ * Determine Ciallos phase description.
+ * Ciallos has 32 full days plus a threshold bridge to day 33.
+ * The first half (days 1-16) is the waxing breath.
+ * The second half (days 17-32) is the waning breath.
+ * Day 33 is the threshold bridge where Luna and Sol realign.
+ */
+function determineCiallosPhase(day: number): string {
+  if (day <= 1) return "Ciallos opens — the intercalary breath begins";
+  if (day <= 15) return "Ciallos waxing — Luna and Sol drawing toward alignment";
+  if (day <= 17) return "Ciallos fullness — the breath reaches its peak";
+  if (day <= 31) return "Ciallos waning — the realignment settles";
+  if (day === 32) return "Ciallos closing — the final full day";
+  return "Ciallos threshold — the bridge between cycles, Luna and Sol realign";
 }

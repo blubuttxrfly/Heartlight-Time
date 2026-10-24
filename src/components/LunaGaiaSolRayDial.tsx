@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import * as Astronomy from "astronomy-engine";
 import { COLIGNY_MONTHS, type ColignyMonth } from "../lib/lunaSolSeason";
+import { CIALLOS_SILVER, CIALLOS_GOLD } from "../lib/colignyCalendar";
 import { computeZenith } from "../lib/gaiaSolAlignments";
 
 /* ───────────────────────────────────────────────────────────
@@ -184,9 +185,12 @@ export function LunaGaiaSolRayDial({
     return (rotationRad * 180) / Math.PI;
   }, [currentMonth.thresholdEclipticDeg, currentMonthProgress]);
 
-  /* Build sectors positioned by ecliptic longitude (ascending, matching gates) */
+  /* Build sectors positioned by ecliptic longitude (ascending, matching gates).
+     When Ciallos is active, insert a 13th Silver Gold sector between
+     Cutios (position 6) and Giamonios (position 7). The Ciallos
+     sector is rendered as a luminous silver-to-gold gradient wedge. */
   const sectors = useMemo(() => {
-    return COLIGNY_MONTHS.map((month) => {
+    const baseMonths = COLIGNY_MONTHS.map((month) => {
       const monthEcliptic = month.thresholdEclipticDeg;
       const startEcl = monthEcliptic - 30;
       const endEcl = monthEcliptic;
@@ -215,9 +219,36 @@ export function LunaGaiaSolRayDial({
         midAngle,
         path,
         isCurrent: month.name === currentMonth.name,
+        isCiallos: false,
       };
     });
-  }, [currentMonth.name]);
+
+    if (ciallosActive) {
+      // Insert Ciallos sector between Cutios (index 5) and Giamonios (index 6)
+      // It occupies the same ecliptic span but is rendered as a luminous overlay
+      const ciallosSector = {
+        month: {
+          position: 6.5,
+          name: "Ciallos",
+          meaning: "The season of exchange, Silver Gold luminosity where Luna and Sol trade breath and realign",
+          fromSign: "Virgo",
+          toSign: "Libra",
+          thresholdRays: { fromRay: "Silver Gold", fromColor: CIALLOS_SILVER, toRay: "Silver Gold", toColor: CIALLOS_GOLD },
+          daysLabel: "MAT",
+          thresholdEclipticDeg: 180,
+        } as ColignyMonth,
+        startAngle: planetAngle(150),
+        endAngle: planetAngle(180),
+        midAngle: planetAngle(165),
+        path: "",
+        isCurrent: currentMonth.name === "Ciallos",
+        isCiallos: true,
+      };
+      return [...baseMonths.slice(0, 6), ciallosSector, ...baseMonths.slice(6)];
+    }
+
+    return baseMonths;
+  }, [currentMonth.name, ciallosActive]);
 
   /* 360 thin wedges for smooth conic gradient */
   const conicWedges = useMemo(() => {
@@ -494,16 +525,61 @@ export function LunaGaiaSolRayDial({
             );
           })()}
 
-          {/* Ciallos subtle ring */}
-          {ciallosActive && (
-            <circle
-              r={RING_OUTER + 10}
-              fill="none"
-              stroke="rgba(34,211,238,0.15)"
-              strokeWidth="1.5"
-              strokeDasharray="3 3"
-            />
-          )}
+          {/* Ciallos luminous sector — Silver Gold gradient wedge */}
+          {ciallosActive && (() => {
+            const ciallosPath = [
+              `M ${polarToCartesian(RING_INNER, planetAngle(150)).x.toFixed(3)} ${polarToCartesian(RING_INNER, planetAngle(150)).y.toFixed(3)}`,
+              `L ${polarToCartesian(RING_OUTER, planetAngle(150)).x.toFixed(3)} ${polarToCartesian(RING_OUTER, planetAngle(150)).y.toFixed(3)}`,
+              `A ${RING_OUTER} ${RING_OUTER} 0 0 1 ${polarToCartesian(RING_OUTER, planetAngle(180)).x.toFixed(3)} ${polarToCartesian(RING_OUTER, planetAngle(180)).y.toFixed(3)}`,
+              `L ${polarToCartesian(RING_INNER, planetAngle(180)).x.toFixed(3)} ${polarToCartesian(RING_INNER, planetAngle(180)).y.toFixed(3)}`,
+              `A ${RING_INNER} ${RING_INNER} 0 0 0 ${polarToCartesian(RING_INNER, planetAngle(150)).x.toFixed(3)} ${polarToCartesian(RING_INNER, planetAngle(150)).y.toFixed(3)}`,
+              "Z",
+            ].join(" ");
+            const ciallosMid = polarToCartesian(monthLabelRadius, planetAngle(165));
+            const ciallosLabelDeg = (planetAngle(165) * 180) / Math.PI + 90;
+            return (
+              <g key="ciallos-sector">
+                {/* Luminous Silver Gold gradient wedge */}
+                <defs>
+                  <linearGradient id="ciallosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor={CIALLOS_SILVER} stopOpacity="0.85" />
+                    <stop offset="100%" stopColor={CIALLOS_GOLD} stopOpacity="0.85" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d={ciallosPath}
+                  fill="url(#ciallosGrad)"
+                  stroke={CIALLOS_GOLD}
+                  strokeWidth="0.8"
+                  opacity="0.9"
+                />
+                {/* Outer luminous glow ring */}
+                <circle
+                  r={RING_OUTER + 10}
+                  fill="none"
+                  stroke={CIALLOS_GOLD}
+                  strokeWidth="1.5"
+                  strokeDasharray="3 3"
+                  opacity="0.4"
+                />
+                {/* Ciallos label */}
+                <text
+                  x={ciallosMid.x.toFixed(3)}
+                  y={ciallosMid.y.toFixed(3)}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fontSize={currentMonth.name === "Ciallos" ? "5.0" : "4.2"}
+                  fontWeight={currentMonth.name === "Ciallos" ? "bold" : "normal"}
+                  fill={currentMonth.name === "Ciallos" ? "#f8fafc" : CIALLOS_GOLD}
+                  opacity={currentMonth.name === "Ciallos" ? "1" : "0.8"}
+                  style={{ textShadow: `0 0 4px ${CIALLOS_GOLD}80` }}
+                  transform={`rotate(${ciallosLabelDeg.toFixed(1)}, ${ciallosMid.x.toFixed(3)}, ${ciallosMid.y.toFixed(3)})`}
+                >
+                  Ciallos
+                </text>
+              </g>
+            );
+          })()}
 
           {/* ── Celtic gate ring — inside rotating group ──
               Gates rotate WITH the zodiac ring. In Zenith mode, they move
@@ -554,6 +630,34 @@ export function LunaGaiaSolRayDial({
               : `rotate(${-rotationDeg.toFixed(2)}) scale(0.035)`
           }
         >
+          {/* Ciallos luminous glow beneath the Ray Key image.
+              Bright expansive Silver glow during Ciallos, fading from Silver
+              hue into Gold hue at completion. */}
+          {ciallosActive && (() => {
+            const day = currentMonthProgress ?? 0;
+            // Progress 0-1 through Ciallos: Silver brightens, Gold emerges at completion
+            const silverOpacity = 0.7 - day * 0.4;
+            const goldOpacity = day * 0.5;
+            return (
+              <g key="ciallos-glow">
+                <defs>
+                  <radialGradient id="ciallosGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stopColor={CIALLOS_SILVER} stopOpacity={Math.max(0.3, silverOpacity)} />
+                    <stop offset="60%" stopColor={CIALLOS_SILVER} stopOpacity={Math.max(0.1, silverOpacity * 0.5)} />
+                    <stop offset="100%" stopColor={CIALLOS_GOLD} stopOpacity={Math.max(0, goldOpacity)} />
+                  </radialGradient>
+                </defs>
+                {/* Expansive glow circle beneath the image */}
+                <circle r="30" fill="url(#ciallosGlow)" opacity="0.85" />
+                {/* Bright Silver inner glow */}
+                <circle r="18" fill={CIALLOS_SILVER} opacity={Math.max(0.15, silverOpacity * 0.3)} />
+                {/* Gold completion halo */}
+                {day > 0.8 && (
+                  <circle r="22" fill="none" stroke={CIALLOS_GOLD} strokeWidth="0.8" opacity={goldOpacity} />
+                )}
+              </g>
+            );
+          })()}
           <image
             href="/ray-key.png"
             x="-744.7"
