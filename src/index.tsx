@@ -2177,49 +2177,8 @@ function useAliceAndPWA() {
     link.href = "https://fonts.googleapis.com/css2?family=Alice&display=swap";
     document.head.appendChild(link);
 
-    // Manifest via Blob
-    const manifest = {
-      name: "Universal Heartlight Time & Tools",
-      short_name: "UHT",
-      start_url: "/",
-      display: "standalone",
-      background_color: "#0a0a0a",
-      theme_color: "#16a34a",
-      icons: [
-        {
-          src: "/icons/uht-icon-192.png",
-          sizes: "192x192",
-          type: "image/png",
-          purpose: "any",
-        },
-        {
-          src: "/icons/uht-icon-192.png",
-          sizes: "192x192",
-          type: "image/png",
-          purpose: "maskable",
-        },
-        {
-          src: "/icons/uht-icon-512.png",
-          sizes: "512x512",
-          type: "image/png",
-          purpose: "any",
-        },
-        {
-          src: "/icons/uht-icon-maskable-512.png",
-          sizes: "512x512",
-          type: "image/png",
-          purpose: "maskable",
-        },
-      ],
-    };
-    const manifestBlob = new Blob([JSON.stringify(manifest)], {
-      type: "application/json",
-    });
-    const manifestUrl = URL.createObjectURL(manifestBlob);
-    const mlink = document.createElement("link");
-    mlink.rel = "manifest";
-    mlink.href = manifestUrl;
-    document.head.appendChild(mlink);
+    // Static manifest.json in /public is the sole PWA manifest source.
+    // (Removed in-app Blob manifest: blob: URLs break iOS homescreen icon caching.)
 
     // Minimal service worker via Blob (pass-through + immediate claim)
     if ("serviceWorker" in navigator) {
