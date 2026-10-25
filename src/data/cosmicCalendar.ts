@@ -4,13 +4,13 @@ export type CosmicCalendarEntry = {
   id: string;
   title: string;
   yearsAgo: number; // whole-number years before present
-  epoch: string; // HT-style label (e.g., U-Epoch, E-Epoch, L-Epoch)
+  epoch: string; // UHT-style label (e.g., U-Epoch, E-Epoch, L-Epoch)
   layer: CosmicCalendarLayer;
   summary?: string;
 };
 
 export type CosmicCalendarTimelineEntry = CosmicCalendarEntry & {
-  sinceOrigin: number; // HT years since Creation of ALL (origin year 0)
+  sinceOrigin: number; // UHT years since Creation of ALL (origin year 0)
 };
 
 export const COSMIC_ORIGIN_LABEL = "Creation of ALL";
@@ -23,7 +23,7 @@ const BASE_ENTRIES: CosmicCalendarEntry[] = [
     yearsAgo: 13_800_000_000,
     epoch: "U-Epoch 0",
     layer: "cosmos",
-    summary: "Creation of ALL — origin point; rapid expansion sets HT Year 0.",
+    summary: "Creation of ALL — origin point; rapid expansion sets UHT Year 0.",
   },
   {
     id: "milky-way",
