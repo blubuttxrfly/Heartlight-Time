@@ -646,7 +646,7 @@ function HeartlightSystemMap() {
   /* ── Extended Chart ──────────────────────────────────────────────── */
   const [houseInfoOpen, setHouseInfoOpen] = useState(false);
   const [extChartOpen, setExtChartOpen] = useState(false);
-  const [extChartMode, setExtChartMode] = useState<"live" | "solar" | "natal">("live");
+  const [extChartMode, setExtChartMode] = useState<"live" | "solar" | "natal">("natal");
   const [srTargetYear, setSrTargetYear] = useState(() => new Date().getFullYear());
 
   /* ── Live Sky location (can differ from birth location) ──────────── */
