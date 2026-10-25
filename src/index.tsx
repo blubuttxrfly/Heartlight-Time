@@ -2181,7 +2181,7 @@ function useAliceAndPWA() {
     const manifest = {
       name: "Universal Heartlight Time & Tools",
       short_name: "UHT",
-      start_url: ".",
+      start_url: "/",
       display: "standalone",
       background_color: "#0a0a0a",
       theme_color: "#16a34a",
@@ -2191,6 +2191,12 @@ function useAliceAndPWA() {
           sizes: "192x192",
           type: "image/png",
           purpose: "any",
+        },
+        {
+          src: "/icons/uht-icon-192.png",
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "maskable",
         },
         {
           src: "/icons/uht-icon-512.png",
@@ -8914,7 +8920,7 @@ if (typeof window !== "undefined" && RUN_TESTS) {
   const idx1 = rayIndexForAUT(0.5); // Red
   const idx2 = rayIndexForAUT(9.5); // Omni now 9–10
   const idx3 = rayIndexForAUT(11.9); // ALL
-  console.assert(RAY_WINDOWS[idx1].name === "Red", "00:30 AUT should be Red");
-  console.assert(RAY_WINDOWS[idx2].name.includes("Omni"), "09:30 AUT should be Omni");
-  console.assert(RAY_WINDOWS[idx3].name === "ALL", "11:54 AUT should be ALL");
+  console.assert(RAY_WINDOWS[idx1].name === "Red", "00:30 UHT should be Red");
+  console.assert(RAY_WINDOWS[idx2].name.includes("Omni"), "09:30 UHT should be Omni");
+  console.assert(RAY_WINDOWS[idx3].name === "ALL", "11:54 UHT should be ALL");
 }
