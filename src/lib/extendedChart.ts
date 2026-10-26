@@ -220,8 +220,11 @@ function ascendantLon(latDeg: number, lstDeg: number, oblDeg: number): number {
 function midheavenLon(lstDeg: number, oblDeg: number): number {
   const lst = (lstDeg * Math.PI) / 180;
   const obl = (oblDeg * Math.PI) / 180;
-  const y = Math.tan(lst);
-  const x = Math.cos(obl);
+  // Quadrant-safe formula: preserve sin(LST) and cos(LST) independently.
+  // The previous formula atan2(tan(LST), cos(obl)) lost quadrant info because
+  // tan has period 180°, causing MC and IC to swap for half of each sidereal day.
+  const y = Math.sin(lst);
+  const x = Math.cos(lst) * Math.cos(obl);
   return wrapAngle((Math.atan2(y, x) * 180) / Math.PI);
 }
 

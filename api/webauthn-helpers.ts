@@ -32,7 +32,7 @@ export function getRpConfig() {
   if (!rpId || !origin) {
     throw new Error("RP_ID and RP_ORIGIN are required (set to your production domain and https URL).");
   }
-  return { rpId, origin, rpName: process.env.RP_NAME || "AUT Clock" };
+  return { rpId, origin, rpName: process.env.RP_NAME || "UHT" };
 }
 
 export function setSessionCookie(res: VercelResponse, token: string, maxAgeSeconds: number) {
