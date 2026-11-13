@@ -76,38 +76,38 @@ export const HOUSE_THEMES = [
   "Transformation, Shared Resources",
   "Higher Learning, Travel, Faith",
   "Career, Public Standing",
-  "Community, Hopes, Friends",
+  "Community, Wishes, Friends",
   "Retreat, Unconscious, Release",
 ] as const;
 
 /** Home Beings — which planetary body is home in each zodiac sign (modern home) */
 export const HOME_BEINGS = [
-  "Mars",
-  "Venus",
-  "Mercury",
-  "Moon",
-  "Sun",
-  "Mercury",
-  "Venus",
-  "Pluto",
-  "Jupiter",
-  "Saturn",
+  "Ares",
+  "Aphrodite",
+  "Hermes",
+  "Luna",
+  "Sol",
+  "Hermes",
+  "Aphrodite",
+  "Hades",
+  "Zeus",
+  "Chronos",
   "Uranus",
-  "Neptune",
+  "Poseidon",
 ] as const;
 
 /** Home Beings symbols */
 export const HOME_BEING_GLYPHS: Record<string, string> = {
-  Mars: "♂",
-  Venus: "♀",
-  Mercury: "☿",
-  Moon: "☾",
-  Sun: "☉",
-  Pluto: "♇",
-  Jupiter: "♃",
-  Saturn: "♄",
+  Ares: "♂",
+  Aphrodite: "♀",
+  Hermes: "☿",
+  Luna: "☾",
+  Sol: "☉",
+  Hades: "♇",
+  Zeus: "♃",
+  Chronos: "♄",
   Uranus: "♅",
-  Neptune: "♆",
+  Poseidon: "♆",
 };
 
 /* ── Types ─────────────────────────────────────────────────────────────── */

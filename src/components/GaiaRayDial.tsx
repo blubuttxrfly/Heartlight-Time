@@ -533,7 +533,7 @@ export default function GaiaRayDial({ lat, lon, sunriseDate, sunsetDate, now, or
           Dawn & Dusk Alignments
         </div>
         <div className="text-[10px] text-white">
-          Date: {sunriseDate.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" })}.
+          Date: {(() => { const m = (sunriseDate.getMonth() + 1).toString().padStart(2, "0"); const d = sunriseDate.getDate().toString().padStart(2, "0"); return `${m}/${d}/${sunriseDate.getFullYear()}`; })()}.
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {/* Dawn */}

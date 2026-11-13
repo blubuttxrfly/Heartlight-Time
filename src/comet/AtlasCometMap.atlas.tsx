@@ -17,12 +17,12 @@ const PLANET_DATA: Record<
   PlanetName,
   { color: number; size: number; radiusAU: number; periodDays: number; label: string }
 > = {
-  Mercury: { color: 0x777777, size: 0.9, radiusAU: 0.39, periodDays: 87.969, label: "Mercury" },
-  Venus: { color: 0xc09050, size: 1.1, radiusAU: 0.72, periodDays: 224.701, label: "Venus" },
-  Earth: { color: 0x4aa3ff, size: 1.2, radiusAU: 1.0, periodDays: 365.256, label: "Earth" },
-  Mars: { color: 0xff5533, size: 1.0, radiusAU: 1.52, periodDays: 686.98, label: "Mars" },
-  Jupiter: { color: 0xf2c078, size: 1.6, radiusAU: 5.2, periodDays: 4332.589, label: "Jupiter" },
-  Saturn: { color: 0xdccaa6, size: 1.5, radiusAU: 9.58, periodDays: 10759.22, label: "Saturn" },
+  Mercury: { color: 0x777777, size: 0.9, radiusAU: 0.39, periodDays: 87.969, label: "Hermes" },
+  Venus: { color: 0xc09050, size: 1.1, radiusAU: 0.72, periodDays: 224.701, label: "Aphrodite" },
+  Earth: { color: 0x4aa3ff, size: 1.2, radiusAU: 1.0, periodDays: 365.256, label: "Gaia" },
+  Mars: { color: 0xff5533, size: 1.0, radiusAU: 1.52, periodDays: 686.98, label: "Ares" },
+  Jupiter: { color: 0xf2c078, size: 1.6, radiusAU: 5.2, periodDays: 4332.589, label: "Zeus" },
+  Saturn: { color: 0xdccaa6, size: 1.5, radiusAU: 9.58, periodDays: 10759.22, label: "Chronos" },
 };
 
 const PLANETS: PlanetName[] = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn"];
@@ -414,7 +414,7 @@ export function AtlasCometMap() {
     </div>
     <TimeControls />
       <p className="text-xs text-slate-300">
-        A lightweight, top-down map of the inner solar system (Mercury–Saturn) with the 3I/ATLAS comet
+        A lightweight, top-down map of the inner solar system (Hermes–Chronos) with the 3I/ATLAS comet
         trajectory. Use the controls to scrub through time or animate the comet’s inbound path.
       </p>
     </div>

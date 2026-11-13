@@ -193,7 +193,7 @@ const ZODIAC_RAY_ESSENCE = [
   "Sensory stability • value • embodiment • pleasure-as-presence",
   "Curiosity • cognition • language • connection • mental motion",
   "Nurture • belonging • home-field manifestation • devotion",
-  "Radiance • heart-expression • creative leadership • joy-force",
+  "Radiance • heart-expression • creative leadership • authentic joy",
   "Refinement • sacred craft • clarity • healing through precision",
   "Discernment • harmony • relational truth • aesthetic intelligence",
   "Depth • transmutation • shadow alchemy • soul power",
@@ -216,60 +216,80 @@ function hexToRgba(hex: string, a: number): string {
 const PLANETARY_INFO: { body: BodyName; title: string; detail: string }[] = [
   {
     body: "Earth",
-    title: "Embodiment Temple • Grounded Manifestation • Belonging",
+    title: "Gaia • Embodiment Temple • Grounded Manifestation • Belonging",
     detail: "Anchors presence, body-wisdom, stewardship, material creation, community.",
   },
   {
     body: "Moon",
-    title: "Soul Mirror • Emotional Tide • Cyclic Wisdom",
+    title: "Luna • Soul Mirror • Emotional Tide • Cyclic Wisdom",
     detail: "Reflects inner landscape, receptivity, instinctual rhythm, memory, and the felt current beneath thought.",
   },
   {
     body: "Sun",
-    title: "Heartlight Source • Vitality • Sovereign Will",
+    title: "Sol • Heartlight Source • Vitality • Sovereign Will",
     detail: "Radiates life-force, confidence, direction, purpose, creative fire.",
   },
   {
     body: "Mercury",
-    title: "Mind-Messenger • Language • Synchronicity Weaving",
+    title: "Hermes • Mind-Messenger • Language • Synchronicity Weaving",
     detail: "Guides communication, learning, signals, timing, clever pathways, trade of ideas.",
   },
   {
     body: "Venus",
-    title: "Resonant Love • Beauty • Value + Pleasure",
+    title: "Aphrodite • Resonant Love • Beauty • Value + Pleasure",
     detail: "Tunes attraction, relationships, art, devotion, sensual harmony, worth.",
   },
   {
     body: "Mars",
-    title: "Sacred Action • Boundaries • Courageous Momentum",
+    title: "Ares • Sacred Action • Boundaries • Courageous Momentum",
     detail: "Ignites drive, protection, decisive movement, desire, focused stamina.",
   },
   {
     body: "Jupiter",
-    title: "Expansion • Blessings • Higher Meaning",
+    title: "Zeus • Expansion • Blessings • Higher Meaning",
     detail: "Opens growth, opportunity, wisdom, optimism, teaching, benevolent abundance.",
   },
   {
     body: "Saturn",
-    title: "Sacred Structure • Time Mastery • Integrity",
+    title: "Chronos • Sacred Structure • Time Mastery • Integrity",
     detail: "Cultivates discipline, responsibility, maturation, devotion, long-form legacy.",
   },
   {
     body: "Uranus",
-    title: "Liberation • Innovation • Future Codes",
+    title: "Uranus • Liberation • Innovation • Future Codes",
     detail: "Awakens change, breakthroughs, originality, collective upgrades, freedom-paths.",
   },
   {
     body: "Neptune",
-    title: "Mystic Ocean • Dreams • Unity Field",
+    title: "Poseidon • Mystic Ocean • Dreams • Unity Field",
     detail: "Deepens intuition, imagination, compassion, spiritual sensitivity, poetic vision.",
   },
   {
     body: "Pluto",
-    title: "Underworld Alchemy • Death/Rebirth • Soul Power",
+    title: "Hades • Underworld Alchemy • Death/Rebirth • Soul Power",
     detail: "Transmutates identity, exposes truth, empowers renewal, clears distorted control.",
   },
 ];
+/** Greek display names for each celestial body — used in all UI rendering. */
+const BODY_DISPLAY_NAMES: Record<BodyName, string> = {
+  Sun: "Sol",
+  Moon: "Luna",
+  Earth: "Gaia",
+  Mercury: "Hermes",
+  Venus: "Aphrodite",
+  Mars: "Ares",
+  Jupiter: "Zeus",
+  Saturn: "Chronos",
+  Uranus: "Uranus",
+  Neptune: "Poseidon",
+  Pluto: "Hades",
+};
+
+/** Helper: get Greek display name for a body string. */
+function displayBody(body: BodyName): string {
+  return BODY_DISPLAY_NAMES[body] ?? body;
+}
+
 const BODIES: BodyName[] = ["Sun", "Moon", "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
 // Presentation order for the alignment list: Earth first, then Moon, Sun, then classical planets in orbital order.
 const BODY_ORDER: BodyName[] = [
@@ -1142,8 +1162,8 @@ function HeartlightSystemMap() {
                       aria-hidden
                     />
                     <div className="flex items-center gap-1.5 leading-tight">
-                      <span className="font-semibold text-sky-100">{placement.body}</span>
-                      <span className="text-sm text-sky-200">{BODY_GLYPHS[placement.body]}</span>
+                      <span className="font-semibold text-sky-100">{displayBody(placement.body as BodyName)}</span>
+                      <span className="text-sm text-sky-200">{BODY_GLYPHS[placement.body as BodyName]}</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-0 text-right leading-[1.05] shrink-0">
@@ -1687,8 +1707,8 @@ function HeartlightSystemMap() {
                           aria-hidden
                         />
                         <div className="flex items-center gap-1.5 leading-tight">
-                          <span className="font-semibold text-sky-100">{placement.body}</span>
-                          <span className="text-sm text-sky-200">{BODY_GLYPHS[placement.body]}</span>
+                          <span className="font-semibold text-sky-100">{displayBody(placement.body as BodyName)}</span>
+                          <span className="text-sm text-sky-200">{BODY_GLYPHS[placement.body as BodyName]}</span>
                         </div>
                       </div>
                       <div className="flex flex-col items-end gap-0 text-right leading-[1.05] shrink-0">
@@ -1720,6 +1740,16 @@ function HeartlightSystemMap() {
                       <div className="mt-1.5 space-y-0.5 border-t border-sky-500/10 pt-1.5">
                         <div className="text-xs font-semibold text-sky-100">{info.title}</div>
                         <div className="text-xs text-slate-300 leading-snug">{info.detail}</div>
+                        {(() => {
+                          const homeSignIdx = HOME_BEINGS.findIndex((b) => b === displayBody(placement.body as BodyName));
+                          if (homeSignIdx === -1) return null;
+                          const homeSign = ZODIAC_SIGNS[homeSignIdx];
+                          return (
+                            <div className="text-[0.6rem] text-sky-200/70">
+                              {homeSign.symbol} Home in {homeSign.name}
+                            </div>
+                          );
+                        })()}
                       </div>
                     ) : null}
                   </div>
@@ -1796,15 +1826,19 @@ function HeartlightSystemMap() {
               </p>
               <div className="mt-1 space-y-1.5">
                 {Array.from({ length: 12 }, (_, i) => {
+                  const homeBeing = HOME_BEINGS[i];
+                  const homeGlyph = HOME_BEING_GLYPHS[homeBeing] ?? "";
                   const hue = ZODIAC_HUES[i] ?? "#e2e8f0";
-                  const isCarbon = i === 9;
-                  const labelStyle = isCarbon
+                  const isCarbonRay = i === 9;
+                  const rayStyle = isCarbonRay
                     ? { color: hue, textShadow: "-0.6px 0 #fff, 0.6px 0 #fff, 0 -0.6px #fff, 0 0.6px #fff, 0 0 8px rgba(0,0,0,0.25)" }
                     : { color: hue };
                   return (
                     <div key={i} className="flex flex-wrap items-start gap-x-2 border-b border-sky-500/10 pb-1.5 last:border-b-0 last:pb-0">
-                      <span className="font-semibold shrink-0" style={labelStyle}>{`Home ${i + 1}, ${ZODIAC_RAY_NAMES[i]}`}</span>
+                      <span className="font-semibold shrink-0 text-sky-100">{`Home ${i + 1}`}</span>
                       <span className="text-slate-200">{HOUSE_THEMES[i]}</span>
+                      <span className="font-medium text-[0.7rem]" style={rayStyle}>{ZODIAC_RAY_NAMES[i]}</span>
+                      <span className="text-sky-300/80 text-[0.7rem]">{homeGlyph} {homeBeing}</span>
                     </div>
                   );
                 })}
@@ -1886,8 +1920,8 @@ function HeartlightSystemMap() {
                             aria-hidden
                           />
                           <div className="flex items-center gap-1.5">
-                            <span className="font-semibold text-sky-100 text-sm">{placement.body}</span>
-                            <span className="text-sm text-sky-200">{BODY_GLYPHS[placement.body]}</span>
+                            <span className="font-semibold text-sky-100 text-sm">{displayBody(placement.body as BodyName)}</span>
+                            <span className="text-sm text-sky-200">{BODY_GLYPHS[placement.body as BodyName]}</span>
                           </div>
                         </div>
                         <div
@@ -2190,7 +2224,7 @@ function ChartPanel({
           </div>
           {/* Sun */}
           <div className="flex items-center gap-2 rounded-md border border-sky-500/10 bg-slate-900/40 px-2.5 py-1.5">
-            <span className="text-sm font-semibold text-sky-100">Sun:</span>
+            <span className="text-sm font-semibold text-sky-100">Sol:</span>
             <span className="text-base" style={carbonTextStyle(chartData.sun.signIndex)}>{chartData.sun.signSymbol}</span>
             <span className="text-sm font-medium text-slate-200">{chartData.sun.signName} {chartData.sun.degrees}°</span>
             <span className="ml-auto text-xs" style={carbonTextStyle(chartData.sun.signIndex)}>{ZODIAC_RAY_NAMES[chartData.sun.signIndex]}</span>
@@ -2284,15 +2318,17 @@ function AngleCard({ angle, label }: { angle: ChartAngle; label: string }) {
 
 function NodeCard({ node, label, subtitle }: { node: LunarNode; label: string; subtitle: string }) {
   return (
-    <div className="flex items-center gap-2 rounded-md border border-sky-500/10 bg-slate-900/40 px-2.5 py-1.5">
+    <div className="flex flex-col gap-1.5 rounded-md border border-sky-500/10 bg-slate-900/40 px-2.5 py-1.5 overflow-hidden sm:flex-row sm:items-center sm:gap-2">
       <div className="flex flex-col shrink-0">
         <span className="text-[0.65rem] uppercase tracking-wide text-sky-200/60">{label}</span>
-        <span className="text-[0.6rem] text-slate-400">{subtitle}</span>
+        <span className="text-[0.6rem] text-slate-400 truncate">{subtitle}</span>
       </div>
-      <span className="text-lg" style={carbonTextStyle(node.signIndex)}>{node.signSymbol}</span>
-      <span className="text-sm font-semibold text-slate-100">{node.signName} {node.degrees}°{node.minutes > 0 ? ` ${node.minutes}'` : ""}</span>
-      <div className="ml-auto flex flex-col items-end shrink-0">
-        <span className="text-xs font-medium" style={carbonTextStyle(node.signIndex)}>{node.rayName}</span>
+      <div className="flex items-center gap-2 overflow-hidden">
+        <span className="text-lg shrink-0" style={carbonTextStyle(node.signIndex)}>{node.signSymbol}</span>
+        <span className="text-sm font-semibold text-slate-100 truncate">{node.signName} {node.degrees}°{node.minutes > 0 ? ` ${node.minutes}'` : ""}</span>
+      </div>
+      <div className="flex flex-col items-start sm:ml-auto sm:items-end shrink-0">
+        <span className="text-xs font-medium truncate" style={carbonTextStyle(node.signIndex)}>{node.rayName}</span>
       </div>
     </div>
   );
@@ -2300,9 +2336,8 @@ function NodeCard({ node, label, subtitle }: { node: LunarNode; label: string; s
 
 function HomeRow({ house, planets }: { house: import("../lib/extendedChart").House; planets: Array<{ body: string; placement: import("../lib/extendedChart").ZodiacPlacement }> }) {
   const isCarbon = house.cusp.signIndex === CAPRICORN_INDEX;
-  const homeBeing = HOME_BEINGS[house.cusp.signIndex];
-  const homeGlyph = HOME_BEING_GLYPHS[homeBeing] ?? "";
   const occupants = planets.filter((p) => p.placement.signIndex === house.cusp.signIndex);
+  const occupantNames = occupants.map((o) => displayBody(o.body as BodyName));
   return (
     <div className="flex flex-col gap-1 rounded-md border border-sky-500/10 bg-slate-900/40 px-2 py-1.5">
       <div className="flex items-center gap-2">
@@ -2326,12 +2361,11 @@ function HomeRow({ house, planets }: { house: import("../lib/extendedChart").Hou
           {house.rayName}
         </span>
       </div>
-      <div className="flex items-center gap-1 text-[0.6rem] text-slate-500">
-        <span>{homeGlyph} {homeBeing} home is here</span>
-        {occupants.length > 0 && (
-          <span className="text-slate-400">, visited by: {occupants.map((o) => o.body).join(", ")}</span>
-        )}
-      </div>
+      {occupantNames.length > 0 && (
+        <div className="text-[0.6rem] text-slate-300">
+          Aligned with {occupantNames.join(", ")}
+        </div>
+      )}
     </div>
   );
 }
@@ -2762,7 +2796,7 @@ function drawBodies(
       // Inner: always centered below
       ctx.textBaseline = "top";
       ctx.textAlign = "center";
-      ctx.fillText(body, center.x, center.y + bodyRadius + labelGap);
+      ctx.fillText(displayBody(body), center.x, center.y + bodyRadius + labelGap);
       ctx.textBaseline = "middle";
     } else if (OUTER_BODIES.has(body)) {
       // Outer: edge-aware horizontal placement
@@ -2771,15 +2805,15 @@ function drawBodies(
 
       if (isNearRightEdge) {
         ctx.textAlign = "right";
-        ctx.fillText(body, center.x - bodyRadius - labelGap, center.y);
+        ctx.fillText(displayBody(body), center.x - bodyRadius - labelGap, center.y);
       } else if (isNearLeftEdge) {
         ctx.textAlign = "left";
-        ctx.fillText(body, center.x + bodyRadius + labelGap, center.y);
+        ctx.fillText(displayBody(body), center.x + bodyRadius + labelGap, center.y);
       } else {
         // Center zone: below planet
         ctx.textBaseline = "top";
         ctx.textAlign = "center";
-        ctx.fillText(body, center.x, center.y + bodyRadius + labelGap);
+        ctx.fillText(displayBody(body), center.x, center.y + bodyRadius + labelGap);
         ctx.textBaseline = "middle";
       }
     }
@@ -2804,7 +2838,7 @@ function drawBodies(
   ctx.font = `${clamp(11 * scale, 8, 14)}px ${themeFont ?? "'JetBrains Mono', ui-monospace, monospace"}`;
   ctx.textBaseline = "top";
   ctx.textAlign = "center";
-  ctx.fillText("Moon", moonX, moonY + moonRadius + moonLabelGap);
+  ctx.fillText("Luna", moonX, moonY + moonRadius + moonLabelGap);
   ctx.textBaseline = "middle";
   ctx.textAlign = "left";
 }

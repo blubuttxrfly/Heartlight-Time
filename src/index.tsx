@@ -1423,7 +1423,9 @@ function formatClock(hhFloat: number): string {
 }
 
 function formatMonthDayLong(date: Date): string {
-  return date.toLocaleDateString(undefined, { month: "long", day: "numeric" });
+  const m = (date.getMonth() + 1).toString().padStart(2, "0");
+  const d = date.getDate().toString().padStart(2, "0");
+  return `${m}/${d}`;
 }
 
 function utcMinutesToLocalDate(utcMinutes: number, baseDateUTC: Date): Date {
@@ -2477,7 +2479,7 @@ const WEEK_RAY_READINGS: Record<string, WeekRayReading> = {
   "thu-c2": {
     title: "Cycle 2 — Indigo Violet (IV)",
     body:
-      "Vision opens into mystic knowing. This current supports dreams, intuition, symbols, and spiritual study—messages through synchronicities, ritual, and inner sight. Perfect for divination, shadow integration, and receiving lucid guidance.",
+      "Relational depth meets soul alchemy. This current deepens the Indigo frequency into Scorpio territory, where harmony and truth dive beneath the surface. Powerful for shadow work, intimate honesty, transforming relational patterns, and ceremony honoring what is hidden.",
   },
   "fri-c1": {
     title: "Cycle 1 — Violet Magenta (VM)",
@@ -4393,8 +4395,11 @@ export default function AUTClock() {
           minute: "2-digit",
           second: "2-digit",
         }),
-      formatDate: (date: Date) =>
-        date.toLocaleDateString([], { year: "numeric", month: "long", day: "numeric" }),
+      formatDate: (date: Date) => {
+        const m = (date.getMonth() + 1).toString().padStart(2, "0");
+        const d = date.getDate().toString().padStart(2, "0");
+        return `${m}/${d}/${date.getFullYear()}`;
+      },
     };
   }, [locationTimeZoneId]);
   const formatSolTime = (date?: Date) => (date ? formatShortTime(date) : "—");
