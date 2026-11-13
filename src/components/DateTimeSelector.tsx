@@ -113,18 +113,21 @@ export function DateTimeSelector({ pendingDate, onPendingChange, onSet, onCurren
   const tz = displayTimeZone;
   return (
     <div className="flex flex-wrap items-center justify-center gap-1.5">
-      {/* Date picker — native input, directly clickable */}
-      <input
-        type="date"
-        value={formatDateForInput(pendingDate, tz)}
-        onChange={(e) => {
-          if (!e.target.value) return;
-          const timeStr = formatTimeForInput(pendingDate, tz);
-          const newDate = parseDateTimeInZone(e.target.value, timeStr, tz, pendingDate);
-          onPendingChange(newDate);
-        }}
-        className="shrink-0 rounded-lg border border-zinc-700 bg-zinc-900/60 px-1.5 py-1 text-xs text-zinc-300 cursor-pointer"
-      />
+      {/* Date picker — custom label over hidden native input for consistent numeric format */}
+      <div className="relative inline-flex shrink-0 items-center rounded-lg border border-zinc-700 bg-zinc-900/60 px-1.5 py-1 text-xs text-zinc-300 cursor-pointer">
+        <span className="tabular-nums select-none">{formatDateForInput(pendingDate, tz).replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")}</span>
+        <input
+          type="date"
+          value={formatDateForInput(pendingDate, tz)}
+          onChange={(e) => {
+            if (!e.target.value) return;
+            const timeStr = formatTimeForInput(pendingDate, tz);
+            const newDate = parseDateTimeInZone(e.target.value, timeStr, tz, pendingDate);
+            onPendingChange(newDate);
+          }}
+          className="absolute inset-0 w-full cursor-pointer opacity-0"
+        />
+      </div>
       {/* Time picker */}
       <input
         type="time"
