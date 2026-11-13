@@ -4374,16 +4374,23 @@ export default function AUTClock() {
         second: "2-digit",
         timeZone: locationTimeZoneId,
       });
-      const dateFmt = new Intl.DateTimeFormat(undefined, {
+      const dateFmt = new Intl.DateTimeFormat("en-CA", {
         year: "numeric",
-        month: "long",
-        day: "numeric",
+        month: "2-digit",
+        day: "2-digit",
         timeZone: locationTimeZoneId,
       });
+      const formatDateTz = (date: Date) => {
+        const parts = dateFmt.formatToParts(date);
+        const y = parts.find((p) => p.type === "year")?.value ?? "0";
+        const m = parts.find((p) => p.type === "month")?.value ?? "0";
+        const d = parts.find((p) => p.type === "day")?.value ?? "0";
+        return `${m}/${d}/${y}`;
+      };
       return {
         formatShortTime: (date: Date) => shortFmt.format(date),
         formatLongTime: (date: Date) => longFmt.format(date),
-        formatDate: (date: Date) => dateFmt.format(date),
+        formatDate: formatDateTz,
       };
     }
     return {
