@@ -20,7 +20,7 @@ import { AtlasCometMap } from "./comet/AtlasCometMap";
 import { THEME_PRESETS, type UITheme } from "./config/themePresets";
 import { DAYS_PER_YEAR_APPROX, MOON_FORMATION_YEARS_AGO, SYNODIC_MONTH_DAYS, EARTH_FORMATION_YEARS_AGO } from "./config/autDate";
 import { CosmicCalendarPanel } from "./components/CosmicCalendarPanel";
-import GaiaRayDial from "./components/GaiaRayDial";
+import { AstroGaiaRayDial } from "./components/AstroGaiaRayDial";
 import { LunaGaiaSolRayDial } from "./components/LunaGaiaSolRayDial";
 import { DateTimeSelector } from "./components/DateTimeSelector";
 import { useSmoothAUT } from "./hooks/useSmoothAUT";
@@ -3716,11 +3716,11 @@ export default function AUTClock() {
   const [deviceId, setDeviceId] = useState<string | null>(null);
   const [activePanel, setActivePanel] = useState<PanelId>("clock");
   const [clockDialMode, setClockDialMode] = useState<"luna" | "gaia" | "sol">("gaia");
-  const [gaiaActiveRay, setGaiaActiveRay] = useState<{ name: string; color: string } | null>(null);
   const [dialOrientation, setDialOrientation] = useState<"heartlight" | "zenith">("zenith");
   const [dialDate, setDialDate] = useState<Date>(new Date());
   const [dialLive, setDialLive] = useState<boolean>(true);
   const [pendingDate, setPendingDate] = useState<Date>(new Date());
+  const [manualModeStart, setManualModeStart] = useState<number | null>(null);
   const [_showCoords, _setShowCoords] = useState(false);
   void _showCoords;
   void _setShowCoords; // kept for future coordinate-toggle UI
@@ -3994,10 +3994,43 @@ export default function AUTClock() {
   }, []);
 
   /* Live mode: when dialLive is true, dialDate continuously tracks now
-     so the Ray Dials keep flowing through the cycles. */
+     so the Ray Dials keep flowing through the cycles.
+     When dialLive is false (manual/Set/Gaia Birth), auto-return to live
+     after 120 seconds so the dial gracefully resumes flowing. */
   useEffect(() => {
-    if (dialLive) setDialDate(new Date());
-  }, [dialLive, now]);
+   if (dialLive) {
+     setDialDate(new Date());
+     return;
+   }
+   // Manual mode — start timer if not already running
+   if (manualModeStart === null) {
+     setManualModeStart(Date.now());
+   }
+  }, [dialLive, now, manualModeStart]);
+
+  useEffect(() => {
+   if (dialLive || manualModeStart === null) return;
+   const elapsed = Date.now() - manualModeStart;
+   const remaining = 120_000 - elapsed; // 120 seconds
+   if (remaining <= 0) {
+     const liveNow = new Date();
+     setDialDate(liveNow);
+     setPendingDate(liveNow);
+     setDialLive(true);
+     setManualModeStart(null);
+     setGaiaBirthActive(false);
+     return;
+   }
+   const id = setTimeout(() => {
+     const liveNow = new Date();
+     setDialDate(liveNow);
+     setPendingDate(liveNow);
+     setDialLive(true);
+     setManualModeStart(null);
+     setGaiaBirthActive(false);
+   }, remaining);
+   return () => clearTimeout(id);
+  }, [dialLive, manualModeStart]);
 
   /* ── Gaia Birth 💫 — jump to active Solar Return profile's birth moment + location ── */
   const [gaiaBirthActive, setGaiaBirthActive] = useState(false);
@@ -4023,6 +4056,7 @@ export default function AUTClock() {
     setDialDate(natalDate);
     setPendingDate(natalDate);
     setDialLive(false);
+    setManualModeStart(Date.now());
     setCoords({ lat: profile.birthLat, lon: profile.birthLon });
     setGaiaBirthActive(true);
   }, [solarReturnActiveProfile, setCoords]);
@@ -4781,8 +4815,8 @@ export default function AUTClock() {
       // Ignore synthetic or zeroed coordinates (avoid top-left flashes)
       if (ev.clientX === 0 && ev.clientY === 0) return;
       // Use active Ray color from whichever dial is selected
-      const hue = clockDialMode === "gaia" && gaiaActiveRay
-        ? gaiaActiveRay.color
+      const hue = clockDialMode === "gaia" && solZodiacPlacement
+        ? solZodiacPlacement.color
         : clockDialMode === "luna"
         ? lunaActiveRay.color
         : activeRay.color;
@@ -4817,7 +4851,7 @@ export default function AUTClock() {
 
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
-  }, [uiTheme, activeRay?.color, gaiaActiveRay?.color, clockDialMode, sparkleEnabled]);
+  }, [uiTheme, activeRay?.color, solZodiacPlacement?.color, clockDialMode, sparkleEnabled]);
 
   // Atlas pointer trail (sparkle dust following mouse)
   useEffect(() => {
@@ -4834,8 +4868,8 @@ export default function AUTClock() {
       lastSpawn.t = nowMs;
 
       // Use active Ray color from whichever dial is selected
-      const hue = clockDialMode === "gaia" && gaiaActiveRay
-        ? gaiaActiveRay.color
+      const hue = clockDialMode === "gaia" && solZodiacPlacement
+        ? solZodiacPlacement.color
         : clockDialMode === "luna"
         ? lunaActiveRay.color
         : activeRay.color;
@@ -4853,7 +4887,7 @@ export default function AUTClock() {
     };
     document.addEventListener("pointermove", onMove);
     return () => document.removeEventListener("pointermove", onMove);
-  }, [uiTheme, activeRay?.color, gaiaActiveRay?.color, clockDialMode, sparkleEnabled]);
+  }, [uiTheme, activeRay?.color, solZodiacPlacement?.color, clockDialMode, sparkleEnabled]);
   const segmentAngle = (2 * Math.PI) / RAY_WINDOWS.length;
   const progressPct = Math.round(rayProgress * 100);
 
@@ -6457,12 +6491,13 @@ export default function AUTClock() {
                   <DateTimeSelector
                     pendingDate={pendingDate}
                     onPendingChange={setPendingDate}
-                    onSet={() => { setDialDate(new Date(pendingDate)); setDialLive(false); }}
+                    onSet={() => { setDialDate(new Date(pendingDate)); setDialLive(false); setManualModeStart(Date.now()); }}
                     onCurrent={() => {
                       const liveNow = new Date(now);
                       setDialDate(liveNow);
                       setPendingDate(liveNow);
                       setDialLive(true);
+                      setManualModeStart(null);
                       setGaiaBirthActive(false);
                     }}
                     displayTimeZone={locationTimeZoneId ?? undefined}
@@ -6770,12 +6805,13 @@ export default function AUTClock() {
                   <DateTimeSelector
                     pendingDate={pendingDate}
                     onPendingChange={setPendingDate}
-                    onSet={() => { setDialDate(new Date(pendingDate)); setDialLive(false); }}
+                    onSet={() => { setDialDate(new Date(pendingDate)); setDialLive(false); setManualModeStart(Date.now()); }}
                     onCurrent={() => {
                       const liveNow = new Date(now);
                       setDialDate(liveNow);
                       setPendingDate(liveNow);
                       setDialLive(true);
+                      setManualModeStart(null);
                       setGaiaBirthActive(false);
                     }}
                     displayTimeZone={locationTimeZoneId ?? undefined}
@@ -7135,7 +7171,7 @@ export default function AUTClock() {
                   <DateTimeSelector
                     pendingDate={pendingDate}
                     onPendingChange={setPendingDate}
-                    onSet={() => { setDialDate(new Date(pendingDate)); setDialLive(false); setGaiaBirthActive(false); }}
+                    onSet={() => { setDialDate(new Date(pendingDate)); setDialLive(false); setGaiaBirthActive(false); setManualModeStart(Date.now()); }}
                     onCurrent={() => {
                       const liveNow = new Date(now);
                       setDialDate(liveNow);
@@ -7163,18 +7199,14 @@ export default function AUTClock() {
                   />
                 </div>
               <div className="flex justify-center">
-                <GaiaRayDial
+                <AstroGaiaRayDial
                   lat={coords.lat}
                   lon={coords.lon}
+                  date={dialDate}
                   sunriseDate={data.sunriseLocal}
                   sunsetDate={data.sunsetLocal}
-                  now={dialDate}
-                  orientation={dialOrientation}
-                  onOrientationChange={setDialOrientation}
                   rayReadings={RAY_READINGS}
-                  onActiveRayChange={setGaiaActiveRay}
                   dialSizeClass={ringSizeClass}
-                  samhainGlowIntensity={samhainGlowIntensity}
                 />
               </div>
             </div>
