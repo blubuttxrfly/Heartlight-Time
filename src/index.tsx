@@ -4478,8 +4478,8 @@ export default function AUTClock() {
     return getLunaSolSeasonInfo(solEffectiveDate, hemisphere);
   }, [solEffectiveDate.toDateString(), hemisphere]);
   const lunaSolDate = useMemo(() => {
-    return getLunaSolDateString(now);
-  }, [now.toDateString()]);
+    return getLunaSolDateString(dialDate);
+  }, [dialDate.toDateString()]);
   const colignyReading = useMemo(() => {
     return getColignyReading(now);
   }, [now.toDateString()]);
