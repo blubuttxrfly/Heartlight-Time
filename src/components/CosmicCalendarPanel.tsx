@@ -40,6 +40,10 @@ export type CosmicCalendarPanelProps = {
   ciallosCyclePosition?: number;
   ciallosNextYear?: string;
   ciallosActive?: boolean;
+  lunaSolDateLabel?: string;
+  lunaSolDateMonthName?: string;
+  lunaSolDateIsCiallos?: boolean;
+  lunaSolDateIsThresholdDay?: boolean;
   moonThresholdLabel?: string;
   resonantRayLabel?: string;
   resonantRayColor?: string;
@@ -62,6 +66,10 @@ export function CosmicCalendarPanel({
   ciallosCyclePosition,
   ciallosNextYear,
   ciallosActive,
+  lunaSolDateLabel,
+  lunaSolDateMonthName,
+  lunaSolDateIsCiallos,
+  lunaSolDateIsThresholdDay,
   moonThresholdLabel,
   resonantRayLabel,
   resonantRayColor,
@@ -190,6 +198,24 @@ export function CosmicCalendarPanel({
               </span>
             ) : null}
           </div>
+
+          {/* Luna Sol Date — Month/Day/MonthTotal/Year */}
+          {lunaSolDateLabel ? (
+            <div className="flex flex-wrap items-baseline gap-1.5">
+              <span className="text-xs uppercase tracking-[0.16em]" style={{ color: lunaSolDateIsCiallos ? "rgba(212,175,55,0.9)" : "#fafafa" }}>
+                Luna Sol Date
+              </span>
+              <span className="text-lg font-semibold tabular-nums" style={{ color: lunaSolDateIsCiallos ? "#D4AF37" : "#fafafa" }}>
+                {lunaSolDateLabel}
+              </span>
+              <span className="text-[11px] text-slate-400">
+                {lunaSolDateMonthName}
+                {lunaSolDateIsCiallos && (lunaSolDateIsThresholdDay
+                  ? " · Threshold Day ✨"
+                  : " · Ciallos")}
+              </span>
+            </div>
+          ) : null}
 
           {/* Ciallos bridge — 3-year cycle status, always visible */}
           {ciallosCyclePosition != null ? (

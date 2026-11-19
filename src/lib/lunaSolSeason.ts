@@ -342,6 +342,100 @@ export function getNextNewMoon(date: Date): Date | null {
   return result ? result.date : null;
 }
 
+/* ── Luna Sol Date String ──
+   Format: Month/Day/MonthTotal/Year
+   - Month: current Coligny month position (1-12, or 6.5 for Ciallos displayed as 13)
+   - Day: day within current lunation (1-based)
+   - MonthTotal: total days in this lunation (29 ANM, 30 MAT, 33 Ciallos)
+   - Year: Luna Sol Year (CE year minus epoch year 5)
+   Ciallos: 32 full days + Day 33 = Threshold Day (the rememberance
+   that time is beyond linear, the transition we feel intuitively). ── */
+export type LunaSolDate = {
+  month: number;
+  day: number;
+  monthTotal: number;
+  year: number;
+  isCiallos: boolean;
+  isThresholdDay: boolean;
+  dateString: string;
+  monthName: string;
+};
+
+export function getLunaSolDateString(date: Date): LunaSolDate {
+  const nowMs = date.getTime();
+
+  // Find previous and next new moons
+  const searchStart = new Date(nowMs - 35 * 86400000);
+  const prevResult = SearchMoonPhase(0, MakeTime(searchStart), 40);
+  const prevNM = prevResult?.date;
+  const nextResult = SearchMoonPhase(0, MakeTime(date), 45);
+  const nextNM = nextResult?.date;
+
+  if (!prevNM || !nextNM || prevNM.getTime() > nowMs) {
+    return {
+      month: 1,
+      day: 1,
+      monthTotal: 30,
+      year: date.getUTCFullYear() - LS_EPOCH_YEAR_CE,
+      isCiallos: false,
+      isThresholdDay: false,
+      dateString: "1/1/30/" + (date.getUTCFullYear() - LS_EPOCH_YEAR_CE),
+      monthName: "Samonios",
+    };
+  }
+
+  const lunaSolYear = date.getUTCFullYear() - LS_EPOCH_YEAR_CE;
+
+  // Ciallos detection
+  const isCiallos = isCiallosLunation(prevNM);
+
+  // Day within lunation (1-based)
+  const elapsedDays = Math.floor((nowMs - prevNM.getTime()) / 86400000);
+  const day = elapsedDays + 1;
+
+  // Synodic length = actual days between new moons
+  const synodicLength = (nextNM.getTime() - prevNM.getTime()) / 86400000;
+
+  // Month total and identity
+  let monthPosition: number;
+  let monthName: string;
+  let monthTotal: number;
+
+  if (isCiallos) {
+    // Ciallos: 32 full days + Day 33 = Threshold Day = 33 total
+    monthPosition = 13; // Ciallos displayed as month 13
+    monthName = "Ciallos";
+    monthTotal = 33;
+  } else {
+    // Normal month: determine position from Coligny month
+    const monthsElapsed = countNewMoonsBetween(getAnchorDate(), prevNM);
+    const ciallosCount = countCiallosBeforeLunation(prevNM);
+    const adjustedMonths = monthsElapsed - ciallosCount;
+    const monthIndex = adjustedMonths % 12;
+    const colignyMonth = COLIGNY_MONTHS[monthIndex];
+    monthPosition = typeof colignyMonth.position === "number" ? colignyMonth.position : 12;
+    monthName = colignyMonth.name;
+    // MAT = 30, ANM = 29 (determined from actual synodic length)
+    monthTotal = synodicLength >= 29.65 ? 30 : 29;
+  }
+
+  // Threshold Day: Day 33 of Ciallos (the rememberance)
+  const isThresholdDay = isCiallos && day === 33;
+
+  const dateString = `${monthPosition}/${day}/${monthTotal}/${lunaSolYear}`;
+
+  return {
+    month: monthPosition,
+    day,
+    monthTotal,
+    year: lunaSolYear,
+    isCiallos,
+    isThresholdDay,
+    dateString,
+    monthName,
+  };
+}
+
 /* ── Current lunation with continuous progress ── */
 export function getCurrentLunationProgress(date: Date): { month: ColignyMonth; progress: number } | null {
   const nowMs = date.getTime();

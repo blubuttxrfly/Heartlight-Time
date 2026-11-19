@@ -15,6 +15,11 @@ type Props = {
   displayTimeZone?: string;
   /** Optional node rendered inline right after the Set button (e.g., the 💫 Gaia Birth button). */
   trailing?: ReactNode;
+  /** Luna Sol Date string in Month/Day/MonthTotal/Year format, displayed above the Gregorian inputs. */
+  lunaSolDateLabel?: string;
+  lunaSolDateMonthName?: string;
+  lunaSolDateIsCiallos?: boolean;
+  lunaSolDateIsThresholdDay?: boolean;
 };
 
 function formatDateForInput(date: Date, timeZone?: string) {
@@ -109,10 +114,28 @@ function parseDateTimeInZone(dateStr: string, timeStr: string, timeZone?: string
   return newDate;
 }
 
-export function DateTimeSelector({ pendingDate, onPendingChange, onSet, onCurrent, displayTimeZone, trailing }: Props) {
+export function DateTimeSelector({ pendingDate, onPendingChange, onSet, onCurrent, displayTimeZone, trailing, lunaSolDateLabel, lunaSolDateMonthName, lunaSolDateIsCiallos, lunaSolDateIsThresholdDay }: Props) {
   const tz = displayTimeZone;
   return (
-    <div className="flex flex-wrap items-center justify-center gap-1.5">
+    <div className="flex flex-col items-center gap-1.5">
+      {/* Luna Sol Date display — Month/Day/MonthTotal/Year */}
+      {lunaSolDateLabel ? (
+        <div className="flex flex-wrap items-baseline justify-center gap-1.5">
+          <span className="text-[10px] uppercase tracking-[0.16em]" style={{ color: lunaSolDateIsCiallos ? "rgba(212,175,55,0.9)" : "#fafafa" }}>
+            Luna Sol Date
+          </span>
+          <span className="text-base font-semibold tabular-nums" style={{ color: lunaSolDateIsCiallos ? "#D4AF37" : "#fafafa" }}>
+            {lunaSolDateLabel}
+          </span>
+          <span className="text-[10px] text-zinc-400">
+            {lunaSolDateMonthName}
+            {lunaSolDateIsCiallos && (lunaSolDateIsThresholdDay
+              ? " · Threshold Day ✨"
+              : " · Ciallos")}
+          </span>
+        </div>
+      ) : null}
+      <div className="flex flex-wrap items-center justify-center gap-1.5">
       {/* Date picker — visible native input for both keyboard typing and calendar selection */}
       <input
         type="date"
@@ -158,6 +181,7 @@ export function DateTimeSelector({ pendingDate, onPendingChange, onSet, onCurren
           Set
         </button>
         {trailing}
+      </div>
       </div>
     </div>
   );

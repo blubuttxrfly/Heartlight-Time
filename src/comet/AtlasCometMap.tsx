@@ -193,14 +193,14 @@ const ZODIAC_RAY_ESSENCE = [
   "Sensory stability • value • embodiment • pleasure-as-presence",
   "Curiosity • cognition • language • connection • mental motion",
   "Nurture • belonging • home-field manifestation • devotion",
-  "Radiance • heart-expression • creative leadership • authentic joy",
+  "Radiance • authentic joy • creative leadership • heart-expression",
   "Refinement • sacred craft • clarity • healing through precision",
   "Discernment • harmony • relational truth • aesthetic intelligence",
   "Depth • transmutation • shadow alchemy • soul power",
   "Expansion • prophecy • horizon-seeking • meaning + adventure",
   "Structure • endurance • legacy-building • sovereign discipline",
   "Future codes • networks • innovation • liberation through design",
-  "Mysticism • compassion • dreamfield • unity consciousness",
+  "Mysticism • compassion • dreamfield • interconnection • unity consciousness",
 ];
 
 /* ── Ray hue helpers for canvas ─────────────────────────────────────────── */
@@ -1739,7 +1739,7 @@ function HeartlightSystemMap() {
                     {info ? (
                       <div className="mt-1.5 space-y-0.5 border-t border-sky-500/10 pt-1.5">
                         <div className="text-xs font-semibold text-sky-100">{info.title}</div>
-                        <div className="text-xs text-slate-300 leading-snug">{info.detail}</div>
+                        <div className="text-xs text-slate-200 leading-snug">{info.detail}</div>
                         {(() => {
                           const homeSignIdx = HOME_BEINGS.findIndex((b) => b === displayBody(placement.body as BodyName));
                           if (homeSignIdx === -1) return null;
@@ -1873,7 +1873,7 @@ function HeartlightSystemMap() {
                     <div>Sign symbol &amp; name: Zodiac sector containing the body at this moment.</div>
                     <div>Earth: Faces the anti-solar point (Sun λ + 180°), the star field Earth gazes toward.</div>
                   </div>
-                  <p className="mt-2 text-slate-300">
+                  <p className="mt-2 text-slate-200">
                     In the Gaian view, Earth is the center of our Universe&apos;s Heartlight. The zodiac wraps around her, and all bodies are measured from her sacred soil. Earth faces the star field opposite our Sun — the window through which Gaia gazes into the cosmos.
                   </p>
                 </>
@@ -1886,7 +1886,7 @@ function HeartlightSystemMap() {
                     <div>Sign symbol &amp; name: Zodiac sector containing the body at this moment.</div>
                     <div>Earth: Real heliocentric orbit around the sovereign fire.</div>
                   </div>
-                  <p className="mt-2 text-slate-300">
+                  <p className="mt-2 text-slate-200">
                     In the Solar view, our Sun is the center of the system. The Sun card shows its geocentric sign (for Solar Return readings), while all other bodies show their true heliocentric positions. Earth orbits the sovereign fire with all her sister worlds.
                   </p>
                 </>
@@ -1935,7 +1935,7 @@ function HeartlightSystemMap() {
                           <span className="uppercase tracking-wide">{placement.signName}</span>
                           <span className="text-xs font-normal opacity-80">{rayName}</span>
                         </div>
-                        <div className="mt-1 font-mono text-[0.65rem] text-slate-300 whitespace-nowrap">
+                        <div className="mt-1 font-mono text-[0.65rem] text-slate-200 whitespace-nowrap">
                           λ {placement.longitude.toFixed(2)}° • β {Math.abs(placement.latitude || 0) < 0.0001 ? "0.00" : (placement.latitude || 0).toFixed(2)}° • Δ {placement.distanceAu.toFixed(3)} AU
                         </div>
                       </div>
@@ -2208,17 +2208,17 @@ function ChartPanel({
           </div>
           {/* Zenith Ray Alignment */}
           <div className="rounded-md border border-sky-500/20 bg-slate-900/60 px-3 py-2 space-y-1">
-            <div className="text-[0.65rem] uppercase tracking-wide text-sky-200/60">Zenith Ray Alignment</div>
+            <div className="text-[0.65rem] uppercase tracking-wide text-sky-200/80">Zenith Ray Alignment</div>
             <div className="flex items-center gap-1.5">
               <span className="text-lg" style={carbonTextStyle(chartData.zenith.signIndex)}>{chartData.zenith.signSymbol}</span>
               <span className="text-sm font-semibold text-slate-100">{chartData.zenith.signName} {chartData.zenith.degrees}°{chartData.zenith.minutes > 0 ? ` ${chartData.zenith.minutes}'` : ""}</span>
               <span className="ml-auto text-xs" style={carbonTextStyle(chartData.zenith.signIndex)}>{ZODIAC_RAY_NAMES[chartData.zenith.signIndex]}</span>
             </div>
-            <div className="text-[0.65rem] text-slate-300">The constellation directly overhead. The astrological Z of complete present alignment.</div>
+            <div className="text-[0.65rem] text-slate-200">The constellation directly overhead. The astrological Z of complete present alignment.</div>
           </div>
           {/* Lunar Nodes */}
           <div className="rounded-md border border-sky-500/20 bg-slate-900/60 px-3 py-2 space-y-2">
-            <div className="text-[0.65rem] uppercase tracking-wide text-sky-200/60">Lunar Nodes</div>
+            <div className="text-[0.65rem] uppercase tracking-wide text-sky-200/80">Lunar Nodes</div>
             <NodeCard node={chartData.northNode} label="North Node" subtitle="Soul growth direction" />
             <NodeCard node={chartData.southNode} label="South Node" subtitle="Past mastery, foundation" />
           </div>
@@ -2259,7 +2259,7 @@ function TimezoneToggle({
 }) {
   if (!detection) {
     return (
-      <div className="text-[0.65rem] text-slate-500">
+      <div className="text-[0.65rem] text-slate-300">
         Timezone will be detected when you save.
       </div>
     );
@@ -2320,15 +2320,15 @@ function NodeCard({ node, label, subtitle }: { node: LunarNode; label: string; s
   return (
     <div className="flex flex-col gap-1.5 rounded-md border border-sky-500/10 bg-slate-900/40 px-2.5 py-1.5 overflow-hidden sm:flex-row sm:items-center sm:gap-2">
       <div className="flex flex-col shrink-0">
-        <span className="text-[0.65rem] uppercase tracking-wide text-sky-200/60">{label}</span>
-        <span className="text-[0.6rem] text-slate-400 truncate">{subtitle}</span>
+        <span className="text-[0.65rem] uppercase tracking-wide text-sky-200/80">{label}</span>
+        <span className="text-[0.6rem] text-slate-200">{subtitle}</span>
       </div>
       <div className="flex items-center gap-2 overflow-hidden">
         <span className="text-lg shrink-0" style={carbonTextStyle(node.signIndex)}>{node.signSymbol}</span>
-        <span className="text-sm font-semibold text-slate-100 truncate">{node.signName} {node.degrees}°{node.minutes > 0 ? ` ${node.minutes}'` : ""}</span>
+        <span className="text-sm font-semibold text-slate-100">{node.signName} {node.degrees}°{node.minutes > 0 ? ` ${node.minutes}'` : ""}</span>
       </div>
       <div className="flex flex-col items-start sm:ml-auto sm:items-end shrink-0">
-        <span className="text-xs font-medium truncate" style={carbonTextStyle(node.signIndex)}>{node.rayName}</span>
+        <span className="text-xs font-medium" style={carbonTextStyle(node.signIndex)}>{node.rayName}</span>
       </div>
     </div>
   );
@@ -2339,7 +2339,8 @@ function HomeRow({ house, planets }: { house: import("../lib/extendedChart").Hou
   const occupants = planets.filter((p) => p.placement.signIndex === house.cusp.signIndex);
   const occupantNames = occupants.map((o) => displayBody(o.body as BodyName));
   return (
-    <div className="flex flex-col gap-1 rounded-md border border-sky-500/10 bg-slate-900/40 px-2 py-1.5">
+    <div className="flex flex-col gap-0.5 rounded-md border border-sky-500/10 bg-slate-900/40 px-2 py-1.5 min-h-[4rem]">
+      {/* Line 1: House number + Sign name + Ray name */}
       <div className="flex items-center gap-2">
         <div
           className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[0.65rem] font-bold ${isCarbon ? "text-white border border-white/40" : "text-white"}`}
@@ -2348,12 +2349,11 @@ function HomeRow({ house, planets }: { house: import("../lib/extendedChart").Hou
           {house.houseNumber}
         </div>
         <span
-          className="text-[0.8rem] font-medium text-slate-200 shrink-0"
+          className="text-[0.8rem] font-medium text-slate-200"
           style={isCarbon ? { WebkitTextStroke: "0.3px rgba(255,255,255,0.6)", textShadow: "0 0 4px rgba(255,255,255,0.4)" } : undefined}
         >
           {house.cusp.signSymbol} {house.cusp.signName}
         </span>
-        <span className="text-[0.65rem] text-slate-400 truncate">{house.theme}</span>
         <span
           className="ml-auto text-[0.65rem] font-medium shrink-0"
           style={carbonTextStyle(house.cusp.signIndex)}
@@ -2361,11 +2361,14 @@ function HomeRow({ house, planets }: { house: import("../lib/extendedChart").Hou
           {house.rayName}
         </span>
       </div>
-      {occupantNames.length > 0 && (
-        <div className="text-[0.6rem] text-slate-300">
-          Aligned with {occupantNames.join(", ")}
-        </div>
-      )}
+      {/* Line 2: House theme */}
+      <div className="text-[0.65rem] text-slate-200">
+        {house.theme}
+      </div>
+      {/* Line 3: Aligned with */}
+      <div className="text-[0.6rem] text-slate-200">
+        {occupantNames.length > 0 ? `Aligned with ${occupantNames.join(", ")}` : "\u00A0"}
+      </div>
     </div>
   );
 }

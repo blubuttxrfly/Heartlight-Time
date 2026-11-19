@@ -359,7 +359,7 @@ export function LunaGaiaSolRayDial({
             ))}
           </g>
 
-          {/* Current month highlight */}
+          {/* Current month highlight — Threshold Ray color arcs */}
           {sectors
             .filter((s) => s.isCurrent)
             .map((s) => (
@@ -377,7 +377,7 @@ export function LunaGaiaSolRayDial({
                   fill="none"
                   stroke={s.month.thresholdRays.fromColor}
                   strokeWidth="2.5"
-                  opacity="0.8"
+                  opacity="0.9"
                 />
                 <path
                   d={(() => {
@@ -391,8 +391,8 @@ export function LunaGaiaSolRayDial({
                   })()}
                   fill="none"
                   stroke={s.month.thresholdRays.toColor}
-                  strokeWidth="1.2"
-                  opacity="0.5"
+                  strokeWidth="1.5"
+                  opacity="0.6"
                 />
               </g>
             ))}
@@ -417,7 +417,7 @@ export function LunaGaiaSolRayDial({
             );
           })()}
 
-          {/* Month labels */}
+          {/* Month labels — Omni Ray hue, interconnected with the Ray frequency system */}
           {sectors.map((s) => {
             const pos = polarToCartesian(monthLabelRadius, s.midAngle);
             const deg = (s.midAngle * 180) / Math.PI + 90;
@@ -430,8 +430,8 @@ export function LunaGaiaSolRayDial({
                 dominantBaseline="middle"
                 fontSize={s.isCurrent ? "5.0" : "4.2"}
                 fontWeight={s.isCurrent ? "bold" : "normal"}
-                fill={s.isCurrent ? "#f8fafc" : "rgba(226,232,240,0.60)"}
-                style={{ textShadow: "0 1px 2px rgba(15,23,42,0.8)" }}
+                fill="#fafafa"
+                opacity={s.isCurrent ? "1" : "0.75"}
                 transform={`rotate(${deg.toFixed(1)}, ${pos.x.toFixed(3)}, ${pos.y.toFixed(3)})`}
               >
                 {s.month.name}

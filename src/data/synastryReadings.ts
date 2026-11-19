@@ -185,7 +185,7 @@ export const INDIVIDUAL_PLACEMENTS: Record<PlacementKey, IndividualPlacement> = 
 
   /* ═══════════════════════════════════════════════════════════════════════
      LEO — Turquoise Ray (~615 THz)
-     Radiance, heart-expression, creative sovereignty
+     Radiance, authentic joy, creative sovereignty
      ═══════════════════════════════════════════════════════════════════════ */
   "leo-sun": {
     rayName: 'Turquoise Ray',
@@ -451,7 +451,7 @@ export const INDIVIDUAL_PLACEMENTS: Record<PlacementKey, IndividualPlacement> = 
 
   /* ═══════════════════════════════════════════════════════════════════════
      PISCES — ALL Ray (infinite frequencies)
-     ALL Ray hues and beyond, mysticism, compassion, unity consciousness
+     ALL Ray hues and beyond, mysticism, compassion, interconnection, unity consciousness
      ═══════════════════════════════════════════════════════════════════════ */
   "pisces-sun": {
     rayName: 'ALL Ray',

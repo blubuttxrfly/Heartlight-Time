@@ -851,7 +851,7 @@ export function AstroGaiaRayDial({ lat, lon, date, sunriseDate, sunsetDate, rayR
                 <div className="mt-0.5 text-[0.6rem] text-zinc-400">
                   {planet.eclipticLon.toFixed(1)}° ecliptic
                 </div>
-                <div className="mt-0.5 text-[0.6rem] leading-tight text-zinc-500">
+                <div className="mt-0.5 text-[0.6rem] leading-tight text-zinc-300">
                   {ZODIAC_RAY_ESSENCE[signIdx]}
                 </div>
               </div>

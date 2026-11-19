@@ -55,14 +55,14 @@ export const ZODIAC_RAY_ESSENCE = [
   "Sensory stability • value • embodiment",
   "Curiosity • cognition • language • connection",
   "Nurture • belonging • home-field devotion",
-  "Radiance • heart-expression • creative fire",
+  "Radiance • authentic joy • creative fire",
   "Refinement • sacred craft • healing precision",
   "Discernment • harmony • relational truth",
   "Depth • transmutation • shadow alchemy",
   "Expansion • meaning • horizon-seeking",
   "Structure • legacy • sovereign discipline",
   "Future codes • networks • innovation",
-  "Mysticism • compassion • unity consciousness",
+  "Mysticism • compassion • interconnection • unity consciousness",
 ] as const;
 
 export const HOUSE_THEMES = [

@@ -35,6 +35,7 @@ import {
   getLunaSolSeasonInfo,
   getCurrentLunationProgress,
   getCurrentColignyMonth,
+  getLunaSolDateString,
   COLIGNY_MONTHS,
   type Hemisphere,
 } from "./lib/lunaSolSeason";
@@ -208,10 +209,9 @@ const ATLAS_ACTIVE_THEME_STORAGE_KEY = "aut-atlas-active-theme";
 const PANEL_OPTIONS: Array<{ id: PanelId; label: string }> = [
   { id: "clock", label: "Universal Ray Dial" },
   { id: "cosmic", label: "Cosmic Calendar" },
-  { id: "sol", label: "Sol Panel" },
   { id: "luna", label: "Luna Panel" },
-  { id: "compass", label: "Gyro Compass" },
   { id: "heartlight", label: "Ray Astrology" },
+  { id: "compass", label: "Gyro Compass" },
   { id: "community", label: "Community" },
   { id: "weekrays", label: "Rays of the Week" },
   { id: "rayreading", label: "Ray Reading" },
@@ -4477,6 +4477,9 @@ export default function AUTClock() {
   const lunaSolSeason = useMemo(() => {
     return getLunaSolSeasonInfo(solEffectiveDate, hemisphere);
   }, [solEffectiveDate.toDateString(), hemisphere]);
+  const lunaSolDate = useMemo(() => {
+    return getLunaSolDateString(now);
+  }, [now.toDateString()]);
   const colignyReading = useMemo(() => {
     return getColignyReading(now);
   }, [now.toDateString()]);
@@ -6501,6 +6504,10 @@ export default function AUTClock() {
                       setGaiaBirthActive(false);
                     }}
                     displayTimeZone={locationTimeZoneId ?? undefined}
+                    lunaSolDateLabel={lunaSolDate.dateString}
+                    lunaSolDateMonthName={lunaSolDate.monthName}
+                    lunaSolDateIsCiallos={lunaSolDate.isCiallos}
+                    lunaSolDateIsThresholdDay={lunaSolDate.isThresholdDay}
                     trailing={
                       solarReturnActiveProfile ? (
                         <button
@@ -6815,6 +6822,10 @@ export default function AUTClock() {
                       setGaiaBirthActive(false);
                     }}
                     displayTimeZone={locationTimeZoneId ?? undefined}
+                    lunaSolDateLabel={lunaSolDate.dateString}
+                    lunaSolDateMonthName={lunaSolDate.monthName}
+                    lunaSolDateIsCiallos={lunaSolDate.isCiallos}
+                    lunaSolDateIsThresholdDay={lunaSolDate.isThresholdDay}
                     trailing={
                       solarReturnActiveProfile ? (
                         <button
@@ -7180,6 +7191,10 @@ export default function AUTClock() {
                       setGaiaBirthActive(false);
                     }}
                     displayTimeZone={locationTimeZoneId ?? undefined}
+                    lunaSolDateLabel={lunaSolDate.dateString}
+                    lunaSolDateMonthName={lunaSolDate.monthName}
+                    lunaSolDateIsCiallos={lunaSolDate.isCiallos}
+                    lunaSolDateIsThresholdDay={lunaSolDate.isThresholdDay}
                     trailing={
                       solarReturnActiveProfile ? (
                         <button
@@ -7368,6 +7383,10 @@ export default function AUTClock() {
                   )
             }
             ciallosActive={lunaSolSeason.ciallosActive}
+            lunaSolDateLabel={lunaSolDate.dateString}
+            lunaSolDateMonthName={lunaSolDate.monthName}
+            lunaSolDateIsCiallos={lunaSolDate.isCiallos}
+            lunaSolDateIsThresholdDay={lunaSolDate.isThresholdDay}
             moonThresholdLabel={`Moon ${lunaCycleData.moonThreshold} of 12`}
             resonantRayLabel={`${lunaCycleData.thresholdRay.name} Ray`}
             resonantRayColor={lunaCycleData.thresholdRay.color}
@@ -7610,8 +7629,23 @@ export default function AUTClock() {
                 <div className="text-sm text-zinc-300">
                   Moon {lunaCycleData.moonThreshold} of 12 · Luna Year {lunaCycleData.lunaYear}
                 </div>
-                <div className="text-[10px] text-zinc-500">
+                <div className="text-[10px] text-zinc-400">
                   Epoch: {lunaCycleData.epochLabel}
+                </div>
+                {/* Luna Sol Date — Month/Day/MonthTotal/Year */}
+                <div className="mt-1 flex flex-wrap items-baseline gap-1.5">
+                  <span className="text-xs uppercase tracking-wide" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
+                    Luna Sol Date
+                  </span>
+                  <span className="text-lg font-semibold tabular-nums" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
+                    {lunaSolDate.dateString}
+                  </span>
+                  <span className="text-[10px] text-zinc-400">
+                    {lunaSolDate.monthName}
+                    {lunaSolDate.isCiallos && (lunaSolDate.isThresholdDay
+                      ? " · Threshold Day ✨"
+                      : " · Ciallos")}
+                  </span>
                 </div>
               </div>
               <div className="text-right space-y-0.5">
@@ -7817,6 +7851,21 @@ export default function AUTClock() {
                   : <span className="text-zinc-500"> · Next intercalary year: {lunaSolSeason.lunaSolYear + (3 - (lunaSolSeason.lunaSolYear % 3))} · LSY Luna Sol Year</span>
                 }
               </div>
+              {/* Luna Sol Date — Month/Day/MonthTotal/Year */}
+              <div className="mt-1 flex flex-wrap items-baseline gap-1.5">
+                <span className="text-xs uppercase tracking-wide" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
+                  Luna Sol Date
+                </span>
+                <span className="text-xl font-semibold tabular-nums" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
+                  {lunaSolDate.dateString}
+                </span>
+                <span className="text-[11px] text-zinc-400">
+                  {lunaSolDate.monthName}
+                  {lunaSolDate.isCiallos && (lunaSolDate.isThresholdDay
+                    ? " · Threshold Day ✨"
+                    : " · Ciallos")}
+                </span>
+              </div>
             </div>
 
             {/* LGS Ray Dial */}
@@ -7972,10 +8021,10 @@ export default function AUTClock() {
 
             {/* Equal Number note */}
             <div className="rounded-xl border border-zinc-700/20 bg-zinc-900/10 p-4">
-              <div className="text-[10px] uppercase tracking-wide text-zinc-500 mb-2">
+              <div className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2">
                 The Equal Number
               </div>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs text-zinc-300 leading-relaxed">
                 19 solar years ≈ 235 synodic months. Luna provides 7 extra months across that span.
                 These are Ciallos, the breath that heals the drift. On average, 12.368 synodic
                 months occur per solar year. Some Luna Years have 12 months. Some have 13.
@@ -7984,7 +8033,7 @@ export default function AUTClock() {
             </div>
 
             {/* Epoch footer */}
-            <div className="text-[10px] text-zinc-600 text-center">
+            <div className="text-[10px] text-zinc-400 text-center">
               Anchor: March 26, 5 CE · New Moon Solar Eclipse in Aries · Luna Sol Year 0
             </div>
           </section>
@@ -8059,10 +8108,10 @@ export default function AUTClock() {
               <div className="text-sm text-zinc-300">
                 March 26, 5 CE · New Moon Solar Eclipse in Aries
               </div>
-              <div className="text-xs text-zinc-500">
+              <div className="text-xs text-zinc-400">
                 Luna Sol Year {colignyReading.lunaSolYear}
               </div>
-              <div className="text-xs text-zinc-500">
+              <div className="text-xs text-zinc-400">
                 New moons since epoch: {colignyReading.newMoonsSinceEpoch}
               </div>
             </div>
