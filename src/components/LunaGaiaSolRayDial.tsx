@@ -525,7 +525,9 @@ export function LunaGaiaSolRayDial({
             );
           })()}
 
-          {/* Ciallos luminous sector — Silver Gold gradient wedge */}
+          {/* Ciallos luminous sector — Silver Gold gradient wedge.
+              Renders ONLY during Ciallos-active years (every 3rd Luna Sol year),
+              when the 7th lunation is the intercalary breath. */}
           {ciallosActive && (() => {
             const ciallosPath = [
               `M ${polarToCartesian(RING_INNER, planetAngle(150)).x.toFixed(3)} ${polarToCartesian(RING_INNER, planetAngle(150)).y.toFixed(3)}`,
@@ -539,13 +541,13 @@ export function LunaGaiaSolRayDial({
             const ciallosLabelDeg = (planetAngle(165) * 180) / Math.PI + 90;
             return (
               <g key="ciallos-sector">
-                {/* Luminous Silver Gold gradient wedge */}
                 <defs>
                   <linearGradient id="ciallosGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor={CIALLOS_SILVER} stopOpacity="0.85" />
                     <stop offset="100%" stopColor={CIALLOS_GOLD} stopOpacity="0.85" />
                   </linearGradient>
                 </defs>
+                {/* Luminous Silver Gold gradient wedge */}
                 <path
                   d={ciallosPath}
                   fill="url(#ciallosGrad)"

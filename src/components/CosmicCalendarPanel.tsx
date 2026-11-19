@@ -36,6 +36,10 @@ export type CosmicCalendarPanelProps = {
   autLunarCyclesLabel?: string;
   lunaCycleLabel?: string;
   lunaYearLabel?: string;
+  lunaSolYearLabel?: string;
+  ciallosCyclePosition?: number;
+  ciallosNextYear?: string;
+  ciallosActive?: boolean;
   moonThresholdLabel?: string;
   resonantRayLabel?: string;
   resonantRayColor?: string;
@@ -54,6 +58,10 @@ export function CosmicCalendarPanel({
   autLunarCyclesLabel,
   lunaCycleLabel,
   lunaYearLabel,
+  lunaSolYearLabel,
+  ciallosCyclePosition,
+  ciallosNextYear,
+  ciallosActive,
   moonThresholdLabel,
   resonantRayLabel,
   resonantRayColor,
@@ -161,12 +169,12 @@ export function CosmicCalendarPanel({
         </article>
       ) : null}
 
-      {(lunaCycleLabel || lunaYearLabel) ? (
+      {(lunaCycleLabel || lunaYearLabel || lunaSolYearLabel) ? (
         <article className="themed-subcard p-4 space-y-2">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="text-xs uppercase tracking-[0.24em] text-cyan-200/80">Luna Year</div>
-              <div className="text-3xl font-semibold text-white tabular-nums">{lunaYearLabel ?? "—"}</div>
+              <div className="text-xs uppercase tracking-[0.24em] text-cyan-200/80">Luna Sol Year</div>
+              <div className="text-3xl font-semibold text-white tabular-nums">{lunaSolYearLabel ?? lunaYearLabel ?? "—"}</div>
             </div>
             <span className="rounded-full border border-cyan-300/50 bg-cyan-500/15 px-3 py-1 text-[11px] uppercase tracking-wide text-cyan-100">
               {moonThresholdLabel ?? "Moon — of 12"}
@@ -182,11 +190,44 @@ export function CosmicCalendarPanel({
               </span>
             ) : null}
           </div>
+
+          {/* Ciallos bridge — 3-year cycle status, always visible */}
+          {ciallosCyclePosition != null ? (
+            <div
+              className="mt-1 flex flex-wrap items-center gap-2 rounded-lg border px-3 py-2"
+              style={{
+                borderColor: ciallosActive ? "rgba(212,175,55,0.5)" : "rgba(192,192,232,0.25)",
+                background: ciallosActive ? "rgba(192,192,232,0.12)" : "rgba(192,192,232,0.04)",
+              }}
+            >
+              <span
+                className="text-[11px] uppercase tracking-[0.16em]"
+                style={{ color: ciallosActive ? "rgba(212,175,55,0.9)" : "rgba(192,192,232,0.7)" }}
+              >
+                {ciallosActive ? "Ciallos is breathing ✨" : `Ciallos in cycle ${ciallosCyclePosition} of 3`}
+              </span>
+              <span className="text-[11px] text-slate-300">
+                {ciallosActive
+                  ? "Silver Gold luminosity — Luna and Sol trade breath and realign"
+                  : ciallosNextYear
+                    ? `Next intercalary year: ${ciallosNextYear} · LSY Luna Sol Year`
+                    : ""}
+              </span>
+            </div>
+          ) : null}
+
+          {/* Pure lunar year shown as secondary reference */}
+          {lunaYearLabel && lunaSolYearLabel ? (
+            <div className="text-[11px] text-slate-400">
+              Pure lunar count (12 synodic months / year): Luna Year {lunaYearLabel} · Solar-anchored: Luna Sol Year {lunaSolYearLabel}
+            </div>
+          ) : null}
+
           <p className="text-sm leading-relaxed text-slate-200">
             Sacred 12-Ray lunar canon anchored to March 26, 0005 CE, a New Moon Hybrid Solar Eclipse in Aries.
             The Vernal Equinox of that year arrived around March 23-24 in the Julian calendar, placing this epoch 2-3 days after the celestial gate opened.
             Our Sun stood at the threshold of Aries, the zero-degree moment when ecliptic longitude reaches exactly 0° and day and night hold perfect balance.
-            Luna Year 1 begins at this epoch, each sacred year spans 12 complete synodic cycles (~354 days), and each Moon Threshold carries the frequency of its corresponding Ray.
+            Each Luna Sol Year follows the solar count (CE year minus epoch), and every 3rd year Ciallos breathes — the intercalary month where Luna and Sol realign, healing the ~10.89 day/year drift. Each Moon Threshold carries the frequency of its corresponding Ray.
           </p>
         </article>
       ) : null}

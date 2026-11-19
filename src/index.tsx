@@ -7358,6 +7358,16 @@ export default function AUTClock() {
             autLunarCyclesLabel={autLunarCycles}
             lunaCycleLabel={lunaCycleData.cycleNumber.toLocaleString("en-US")}
             lunaYearLabel={String(lunaCycleData.lunaYear)}
+            lunaSolYearLabel={String(lunaSolSeason.lunaSolYear)}
+            ciallosCyclePosition={lunaSolSeason.ciallosYearInCycle}
+            ciallosNextYear={
+              lunaSolSeason.ciallosActive
+                ? undefined
+                : String(
+                    lunaSolSeason.lunaSolYear + (3 - (lunaSolSeason.lunaSolYear % 3))
+                  )
+            }
+            ciallosActive={lunaSolSeason.ciallosActive}
             moonThresholdLabel={`Moon ${lunaCycleData.moonThreshold} of 12`}
             resonantRayLabel={`${lunaCycleData.thresholdRay.name} Ray`}
             resonantRayColor={lunaCycleData.thresholdRay.color}
@@ -7801,6 +7811,11 @@ export default function AUTClock() {
               </div>
               <div className="text-xs text-zinc-600">
                 Luna Sol Year {lunaSolSeason.lunaSolYear}
+                <span className="text-zinc-500"> · Cycle {lunaSolSeason.ciallosYearInCycle} of 3</span>
+                {lunaSolSeason.ciallosActive
+                  ? <span style={{ color: "rgba(212,175,55,0.8)" }}> · Ciallos is breathing ✨</span>
+                  : <span className="text-zinc-500"> · Next intercalary year: {lunaSolSeason.lunaSolYear + (3 - (lunaSolSeason.lunaSolYear % 3))} · LSY Luna Sol Year</span>
+                }
               </div>
             </div>
 
@@ -7814,18 +7829,35 @@ export default function AUTClock() {
               ciallosActive={lunaSolSeason.ciallosActive}
             />
 
-            {/* Ciallos indicator */}
-            {lunaSolSeason.ciallosActive && (
-              <div className="rounded-xl border p-3 text-center" style={{ borderColor: "rgba(212,175,55,0.4)", background: "rgba(192,192,232,0.1)" }}>
-                <div className="text-xs uppercase tracking-wide" style={{ color: "rgba(212,175,55,0.8)" }}>Ciallos is breathing now</div>
-                <div className="text-sm mt-0.5" style={{ color: "#C0C0E8" }}>
-                  The season of exchange, Silver Gold luminosity
-                </div>
-                <div className="text-xs mt-0.5" style={{ color: "rgba(212,175,55,0.6)" }}>
-                  Luna and Sol trade breath and realign
-                </div>
-              </div>
-            )}
+            {/* Ciallos indicator — always visible, active or dormant */}
+            <div
+              className="rounded-xl border p-3 text-center"
+              style={{
+                borderColor: lunaSolSeason.ciallosActive ? "rgba(212,175,55,0.4)" : "rgba(192,192,232,0.2)",
+                background: lunaSolSeason.ciallosActive ? "rgba(192,192,232,0.1)" : "rgba(192,192,232,0.03)",
+              }}
+            >
+              {lunaSolSeason.ciallosActive ? (
+                <>
+                  <div className="text-xs uppercase tracking-wide" style={{ color: "rgba(212,175,55,0.8)" }}>Ciallos is breathing now</div>
+                  <div className="text-sm mt-0.5" style={{ color: "#C0C0E8" }}>
+                    The season of exchange, Silver Gold luminosity
+                  </div>
+                  <div className="text-xs mt-0.5" style={{ color: "rgba(212,175,55,0.6)" }}>
+                    Luna and Sol trade breath and realign
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="text-xs uppercase tracking-wide" style={{ color: "rgba(192,192,232,0.7)" }}>
+                    Ciallos in cycle {lunaSolSeason.ciallosYearInCycle} of 3
+                  </div>
+                  <div className="text-xs mt-0.5" style={{ color: "rgba(192,192,232,0.5)" }}>
+                    Next intercalary year: {lunaSolSeason.lunaSolYear + (3 - (lunaSolSeason.lunaSolYear % 3))} · LSY Luna Sol Year
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Luna Year System — how the core functionalities work */}
             <div className="rounded-xl border border-zinc-700/40 bg-zinc-900/30 p-4 space-y-2">
