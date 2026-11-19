@@ -365,8 +365,9 @@ export function getLunaSolDateString(date: Date): LunaSolDate {
   const nowMs = date.getTime();
 
   // Find previous and next new moons
-  const searchStart = new Date(nowMs - 35 * 86400000);
-  const prevResult = SearchMoonPhase(0, MakeTime(searchStart), 40);
+  // Search backward from the date to find the most recent new moon
+  // (same strategy as getCurrentColignyMonth / findPreviousNewMoon)
+  const prevResult = SearchMoonPhase(0, MakeTime(date), -40);
   const prevNM = prevResult?.date;
   const nextResult = SearchMoonPhase(0, MakeTime(date), 45);
   const nextNM = nextResult?.date;

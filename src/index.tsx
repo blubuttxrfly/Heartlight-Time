@@ -5182,7 +5182,7 @@ export default function AUTClock() {
   // Epoch = March 26, 0005 CE — New Moon Hybrid Solar Eclipse, Red Ray Aries
   const lunaCycleData = useMemo(() => {
     const SACRED_LUNA_EPOCH = new Date("0005-03-26T00:00:00Z");
-    const daysSinceEpoch = (now.getTime() - SACRED_LUNA_EPOCH.getTime()) / (1000 * 60 * 60 * 24);
+    const daysSinceEpoch = (dialDate.getTime() - SACRED_LUNA_EPOCH.getTime()) / (1000 * 60 * 60 * 24);
     const totalCycles = Math.floor(daysSinceEpoch / SYNODIC_MONTH_DAYS);
     const cycleNumber = totalCycles + 1;
     const moonThreshold = ((totalCycles % 12) + 12) % 12 + 1;
@@ -5195,7 +5195,7 @@ export default function AUTClock() {
       thresholdRay,
       epochLabel: "March 26, 0005 CE · New Moon Hybrid Solar Eclipse",
     };
-  }, [now]);
+  }, [dialDate]);
 
   // Luna dial segments — same orientation as Sol (interconnected).
   // The offset is identical to the Sol dial so both wheels share the same sacred geometry.
@@ -6802,6 +6802,46 @@ export default function AUTClock() {
                   {moonPhaseName} · {moonIllumPct ?? "—"}% Illuminated
                 </div>
               </div>
+
+              {/* Luna Cycle / Threshold tracker — moved from Luna panel */}
+              <div className="themed-subcard p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <div className="text-xs uppercase tracking-wide text-zinc-400">
+                      Luna Cycle {lunaCycleData.cycleNumber.toLocaleString("en-US")}
+                    </div>
+                    <div className="text-sm text-zinc-300">
+                      Moon {lunaCycleData.moonThreshold} of 12 · Luna Year {lunaCycleData.lunaYear}
+                    </div>
+                    <div className="text-[10px] text-zinc-400">
+                      Epoch: {lunaCycleData.epochLabel}
+                    </div>
+                  </div>
+                  <div className="text-right space-y-0.5">
+                    <div className="text-xs uppercase tracking-wide text-zinc-400">Resonant Ray</div>
+                    <div className="text-sm font-semibold" style={{ color: lunaCycleData.thresholdRay.color }}>
+                      {lunaCycleData.thresholdRay.name} Ray
+                    </div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {Array.from({ length: 12 }, (_, i) => {
+                    const isActive = i + 1 === lunaCycleData.moonThreshold;
+                    const ray = LUNA_RAY_WINDOWS[i];
+                    return (
+                      <div
+                        key={i}
+                        className="h-2 flex-1 rounded-full transition-colors"
+                        style={{
+                          backgroundColor: isActive ? ray.color : "#27272a",
+                          boxShadow: isActive ? `0 0 6px ${ray.color}66` : "none",
+                        }}
+                        title={`Moon ${i + 1}: ${ray.name} Ray`}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
             </div>
             )}
 
@@ -7619,58 +7659,21 @@ export default function AUTClock() {
             </div>
           </div>
 
-          {/* Luna Cycle / Threshold tracker */}
-          <div className="rounded-xl border border-zinc-700/40 bg-zinc-900/30 p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <div className="text-xs uppercase tracking-wide text-zinc-400">
-                  Luna Cycle {lunaCycleData.cycleNumber.toLocaleString("en-US")}
-                </div>
-                <div className="text-sm text-zinc-300">
-                  Moon {lunaCycleData.moonThreshold} of 12 · Luna Year {lunaCycleData.lunaYear}
-                </div>
-                <div className="text-[10px] text-zinc-400">
-                  Epoch: {lunaCycleData.epochLabel}
-                </div>
-                {/* Luna Sol Date — Month/Day/MonthTotal/Year */}
-                <div className="mt-1 flex flex-wrap items-baseline gap-1.5">
-                  <span className="text-xs uppercase tracking-wide" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
-                    Luna Sol Date
-                  </span>
-                  <span className="text-lg font-semibold tabular-nums" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
-                    {lunaSolDate.dateString}
-                  </span>
-                  <span className="text-[10px] text-zinc-400">
-                    {lunaSolDate.monthName}
-                    {lunaSolDate.isCiallos && (lunaSolDate.isThresholdDay
-                      ? " · Threshold Day ✨"
-                      : " · Ciallos")}
-                  </span>
-                </div>
-              </div>
-              <div className="text-right space-y-0.5">
-                <div className="text-xs uppercase tracking-wide text-zinc-400">Resonant Ray</div>
-                <div className="text-sm font-semibold" style={{ color: lunaCycleData.thresholdRay.color }}>
-                  {lunaCycleData.thresholdRay.name} Ray
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5">
-              {Array.from({ length: 12 }, (_, i) => {
-                const isActive = i + 1 === lunaCycleData.moonThreshold;
-                const ray = LUNA_RAY_WINDOWS[i];
-                return (
-                  <div
-                    key={i}
-                    className="h-2 flex-1 rounded-full transition-colors"
-                    style={{
-                      backgroundColor: isActive ? ray.color : "#27272a",
-                      boxShadow: isActive ? `0 0 6px ${ray.color}66` : "none",
-                    }}
-                    title={`Moon ${i + 1}: ${ray.name} Ray`}
-                  />
-                );
-              })}
+          {/* Luna Sol Date — Month/Day/MonthTotal/Year (Luna Cycle tracker moved to Luna Ray Dial) */}
+          <div className="rounded-xl border border-zinc-700/40 bg-zinc-900/30 p-4 space-y-2">
+            <div className="flex flex-wrap items-baseline gap-1.5">
+              <span className="text-xs uppercase tracking-wide" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
+                Luna Sol Date
+              </span>
+              <span className="text-lg font-semibold tabular-nums" style={{ color: lunaSolDate.isCiallos ? "#D4AF37" : "#fafafa" }}>
+                {lunaSolDate.dateString}
+              </span>
+              <span className="text-[10px] text-zinc-400">
+                {lunaSolDate.monthName}
+                {lunaSolDate.isCiallos && (lunaSolDate.isThresholdDay
+                  ? " · Threshold Day ✨"
+                  : " · Ciallos")}
+              </span>
             </div>
           </div>
 
